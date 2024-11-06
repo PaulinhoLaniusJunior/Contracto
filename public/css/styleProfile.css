@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    background-color: white;
+    color: black;
+}
+
+header {
+    margin-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 9%;
+    background-color: transparent;
+    filter: drop-shadow(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos Comuns para o Botão de Usuário */
+.user-btn {
+    padding: 0.8rem 1.5rem; /* Ajustado para o mesmo tamanho */
+    font-size: 1.4rem; /* Tamanho da fonte igual em ambas as páginas */
+    color: #0a2cc3; /* Cor do texto azul */
+    background-color: white; /* Fundo branco */
+    border: 2px solid #0a2cc3; /* Borda azul */
+    border-radius: 4rem; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor pointer ao passar o mouse */
+    margin-left: 1rem; /* Espaçamento à esquerda do botão */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave */
+}
+
+.user-btn:hover {
+    background-color: #0a2cc3; /* Fundo azul ao passar o mouse */
+    color: white; /* Texto branco ao passar o mouse */
+}
+
+/* Estilos para o botão na página de serviços */
+.btn {
+    padding: 0.8rem 1.5rem; /* Mantenha o mesmo padding para consistência */
+    font-size: 1.4rem; /* Tamanho da fonte */
+    background-color: #0a2cc3; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border-radius: 4rem; /* Bordas arredondadas */
+    border: 2px solid transparent; /* Borda transparente padrão */
+    transition: 0.3s ease; /* Transição suave */
+    cursor: pointer; /* Cursor pointer */
+}
+
+/* Efeito hover para o botão */
+.btn:hover {
+    background-color: white; /* Cor de fundo ao passar o mouse */
+    color: #0a2cc3; /* Cor do texto ao passar o mouse */
+    border: 2px solid #0a2cc3; /* Borda azul ao passar o mouse */
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.logo {
+    font-size: 3rem;
+    color: #0a2cc3;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+section {
+    min-height: 100vh;
+    padding: 5rem 9% 5rem;
+}
+
+/* Estilo para a tela de perfil */
+.profile {
+    padding-top: 110px;
+}
+
+.profile h2 {
+    font-size: 2.5rem;
+    color: #0a2cc3;
+    margin-bottom: 2rem;
+}
+
+#profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaçamento entre os campos */
+}
+
+input {
+    padding: 1rem; /* Ajustado para manter consistência */
+    font-size: 1.4rem; /* Tamanho da fonte */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem; /* Espaçamento entre os botões */
+}
+
+/* Estilos para os botões */
+.btn {
+    padding: 0.8rem 1.5rem; /* Ajustado para ficar do mesmo tamanho */
+    background-color: #0a2cc3;
+    border-radius: 4rem;
+    font-size: 1.4rem;
+    color: white;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: white;
+    color: #0a2cc3;
+    border: 2px solid #0a2cc3;
+}
