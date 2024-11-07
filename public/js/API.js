@@ -27,7 +27,7 @@ app.post('/analyze-pdf', upload.single('pdf'), async (req, res) => {
             },
             {
                 headers: {
-                    'Authorization': `Bearer AIzaSyDWBKvyRY4XgcaQtt4aVkWW5pXeT7vRrlE`, // Substitua com sua chave de API da Gemini
+                    'Authorization': `Bearer `, // Substitua com sua chave de API da Gemini
                     'Content-Type': 'application/json'
                 }
             }
