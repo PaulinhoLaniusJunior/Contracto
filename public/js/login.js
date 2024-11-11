@@ -16,7 +16,11 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         message.textContent = data.message;
 
         if (data.success) {
-            alert('Login realizado com sucesso!');
+            // alert é a mensagem que aparece caso receba como parametro a mensagem de formulario (login_mesage)
+            //usar somente em caso de testes
+
+            //alert('Login realizado com sucesso!'); <-- linha de codigo
+            
             window.location.href = '../pages/servicos.html'; // Redireciona após login bem-sucedido
         } else {
             setTimeout(() => {
