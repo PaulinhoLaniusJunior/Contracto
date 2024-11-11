@@ -17,7 +17,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
         if (data.success) {
             alert('Login realizado com sucesso!');
-            window.location.href = '../pages/serviços.html'; // Redireciona após login bem-sucedido
+            window.location.href = '../pages/servicos.html'; // Redireciona após login bem-sucedido
         } else {
             setTimeout(() => {
                 window.location.href = '../pages/error.html';

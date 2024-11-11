@@ -23,7 +23,7 @@ registerForm.addEventListener('submit', function (e) {
 
         if (data.success) {
             alert('Registro realizado com sucesso!');
-            window.location.href = '../pages/serviços.html'; // Redireciona após registro bem-sucedido
+            window.location.href = '../pages/servicos.html'; // Redireciona após registro bem-sucedido
         } else {
             console.error('Erro no registro:', data.message);
         }
