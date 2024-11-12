@@ -1,0 +1,63 @@
+/* Estilos básicos para a página de usuário logado */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f3f3f3;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+#logoutBtn {
+    padding: 10px 20px;
+    background-color: #ff4b4b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#logoutBtn:hover {
+    background-color: #ff3333;
+}
+
+.content {
+    max-width: 800px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.content h2 {
+    font-size: 20px;
+    color: #4CAF50;
+}
+
+.content p {
+    font-size: 16px;
+    color: #555;
+}

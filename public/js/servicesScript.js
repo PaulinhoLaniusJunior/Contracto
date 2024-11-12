@@ -91,3 +91,8 @@ document.getElementById('cancelProfileBtn').addEventListener('click', function()
 });
 
 
+// servicesScript.js
+document.getElementById('logo').addEventListener('click', function() {
+    const homePage = isUserLoggedIn() ? 'home_logged.html' : 'home.html';
+    window.location.href = homePage;
+});

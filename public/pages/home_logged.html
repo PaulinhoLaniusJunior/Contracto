@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/stylehome_logged.css">
+    <title>Contracto - Home (Logado)</title>
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo(a) ao Contracto!</h1>
+        <button id="logoutBtn">Sair</button>
+    </header>
+    
+    <section class="content">
+        <h2>Você está logado!</h2>
+        <p>Explore as funcionalidades disponíveis para gerenciar seus contratos.</p>
+    </section>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Adiciona o evento de logout ao botão
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+    </script>
+</body>
+</html>
