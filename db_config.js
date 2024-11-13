@@ -8,7 +8,7 @@ const db = mysql.createConnection({
     password: '70502604',
     
     // Altere para seu banco de dados, o meu é contracto data
-    database: 'Contractodata'  
+    database: 'Contracto'  
 });
 
 db.connect(err => {

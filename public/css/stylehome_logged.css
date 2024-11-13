@@ -1,10 +1,13 @@
-/* Estilos básicos para a página de usuário logado */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -17,26 +20,80 @@ body {
     color: #333;
 }
 
+/* Menu de Usuário */
+.user-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: inline-block;
+    z-index: 1000;
+}
+
+.user-btn {
+    padding: 10px 20px;
+    background-color: #0a2cc3;
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.user-btn:hover {
+    background-color: #083a9f;
+    box-shadow: 0 0 15px rgba(10, 44, 195, 0.5);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 160px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    font-size: 1.4rem;
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+    transition: 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #0a2cc3;
+}
+
+.user-menu:hover .dropdown-content {
+    display: block;
+}
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     padding: 20px;
-    background-color: #4CAF50;
+    background-color: #0a2cc3;
     color: #fff;
 }
 
 header h1 {
-    font-size: 24px;
+    font-size: 3rem;
+    font-weight: 700;
 }
 
 #logoutBtn {
     padding: 10px 20px;
     background-color: #ff4b4b;
-    color: #fff;
-    border: none;
+    color: white;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -46,6 +103,7 @@ header h1 {
     background-color: #ff3333;
 }
 
+/* Estilo para o conteúdo */
 .content {
     max-width: 800px;
     text-align: center;
@@ -53,11 +111,11 @@ header h1 {
 }
 
 .content h2 {
-    font-size: 20px;
-    color: #4CAF50;
+    font-size: 2.4rem;
+    color: #0a2cc3;
 }
 
 .content p {
-    font-size: 16px;
+    font-size: 1.6rem;
     color: #555;
 }
