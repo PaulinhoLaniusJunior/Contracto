@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../css/stylehome.css">
     <title>Contracto - Home</title>
+
+    <!-- Script de redirecionamento para usuários logados -->
+    <script>
+        if (sessionStorage.getItem('userLogged') === 'true') {
+            window.location.href = 'home_logged.html';
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -49,5 +56,3 @@
  
 </body>
 </html>
- 
- 

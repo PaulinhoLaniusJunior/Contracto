@@ -29,6 +29,23 @@
             <input type="text" placeholder="Sobrenome" id="surname" required>
             <input type="email" placeholder="E-mail" id="email" required>
             <input type="tel" placeholder="Celular" id="phone" required>
+            <input type="date" placeholder="Data de Nascimento" id="birthdate" required>
+            <input type="text" placeholder="CPF" id="cpf" value="123.456.789-00" readonly>
+            <input type="text" placeholder="Rua" id="street" required>
+            <input type="text" placeholder="Bairro" id="neighborhood" required>
+            <input type="text" placeholder="Número" id="number" required>
+            <input type="text" placeholder="Cidade" id="city" required>
+            <input type="text" placeholder="CEP" id="cep" required>
+
+            <!-- Caixa de seleção de tipo de conta -->
+            <label for="accountType">Tipo de Conta:</label>
+            <select id="accountType" required>
+                <option value="">Selecione</option>
+                <option value="teste">Teste - até 3 contratos</option>
+                <option value="pessoal">Uso Pessoal - até 15 contratos</option>
+                <option value="empresarial">Empresarial - até 50 contratos</option>
+            </select>
+
             <div class="buttons">
                 <button type="submit" class="btn" id="saveProfileBtn">Salvar</button>
                 <button type="button" class="btn" id="cancelProfileBtn">Cancelar</button>

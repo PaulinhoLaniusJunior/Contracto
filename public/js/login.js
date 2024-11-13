@@ -1,3 +1,4 @@
+// login.js
 document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -16,11 +17,12 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         message.textContent = data.message;
 
         if (data.success) {
+            sessionStorage.setItem('userLogged', 'true');
             alert('Login realizado com sucesso!');
-            window.location.href = '../pages/serviços.html'; // Redireciona após login bem-sucedido
+            window.location.href = 'servicos.html'; // Redireciona após login bem-sucedido
         } else {
             setTimeout(() => {
-                window.location.href = '../pages/error.html';
+                window.location.href = 'error.html';
             }, 2000);
         }
     })

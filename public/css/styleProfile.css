@@ -167,3 +167,93 @@ input {
     color: #0a2cc3;
     border: 2px solid #0a2cc3;
 }
+/* Estilos gerais do perfil */
+#profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaçamento entre os campos */
+}
+
+input {
+    padding: 1rem; /* Ajustado para manter consistência */
+    font-size: 1.4rem; /* Tamanho da fonte */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+/* Adicionando estilo para o campo CPF, que será apenas leitura */
+#cpf {
+    background-color: #f4f4f4; /* Cor de fundo diferente para indicar que não pode ser editado */
+    cursor: not-allowed; /* Indicando que não é editável */
+}
+
+/* Botões */
+.buttons {
+    display: flex;
+    gap: 1rem; /* Espaçamento entre os botões */
+}
+
+.btn {
+    padding: 0.8rem 1.5rem; /* Ajustado para ficar do mesmo tamanho */
+    background-color: #0a2cc3;
+    border-radius: 4rem;
+    font-size: 1.4rem;
+    color: white;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: white;
+    color: #0a2cc3;
+    border: 2px solid #0a2cc3;
+}
+/* Estilos gerais do perfil */
+#profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaçamento entre os campos */
+}
+
+input, select {
+    padding: 1rem; /* Ajustado para manter consistência */
+    font-size: 1.4rem; /* Tamanho da fonte */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+/* Estilo para a caixa de seleção */
+select {
+    background-color: #fff; /* Cor de fundo da caixa de seleção */
+    cursor: pointer; /* Indicando que é um campo interativo */
+}
+
+/* Adicionando estilo para o campo CPF, que será apenas leitura */
+#cpf {
+    background-color: #f4f4f4; /* Cor de fundo diferente para indicar que não pode ser editado */
+    cursor: not-allowed; /* Indicando que não é editável */
+}
+
+/* Botões */
+.buttons {
+    display: flex;
+    gap: 1rem; /* Espaçamento entre os botões */
+}
+
+.btn {
+    padding: 0.8rem 1.5rem; /* Ajustado para ficar do mesmo tamanho */
+    background-color: #0a2cc3;
+    border-radius: 4rem;
+    font-size: 1.4rem;
+    color: white;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: white;
+    color: #0a2cc3;
+    border: 2px solid #0a2cc3;
+}

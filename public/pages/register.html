@@ -11,20 +11,22 @@
 </head>
 
 <body>
+    <!-- Container de notificações -->
+    <div id="notification-container" class="notification-container"></div>
+
     <div class="container">
         <div class="form-container sign-up-container">
             <form id="registerForm">
                 <h1>Registrar-se</h1>
                 <span></span>
-                <input type="text" placeholder="Nome completo" required />
+                <input type="text" id="reg_name" placeholder="Nome completo" required />
+                <input type="text" id="reg_cpf" placeholder="CPF" required />
                 <input type="email" id="reg_email" placeholder="Email" required />
                 <input type="password" id="reg_password" placeholder="Senha" required />
                 <input type="password" id="reg_confirm_password" placeholder="Confirme a Senha" required />
                 <button type="submit">Registrar-se</button>
                 <p>Já possui uma conta? <a href="login.html">Entrar</a></p>
             </form>
-            <!-- Elemento para exibir mensagens -->
-            <p id="reg_message"></p>
         </div>
     </div>
 </body>
