@@ -62,7 +62,7 @@ registerForm.addEventListener('submit', function (e) {
         console.log('Resposta recebida do servidor:', data);
         if (data.success) {
             criarNotificacao('Registro realizado com sucesso!', 'success');
-            window.location.href = '../pages/serviços.html'; // Redireciona após registro bem-sucedido
+            window.location.href = '../pages/servicos.html'; // Redireciona após registro bem-sucedido
         } else {
             criarNotificacao('Erro no registro: ' + data.message, 'error');
         }
