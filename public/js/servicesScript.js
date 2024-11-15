@@ -1,25 +1,101 @@
 const addContractBtn = document.getElementById('addContractBtn');
-const contractFileInput = document.getElementById('contractFileInput');
-const contractList = document.getElementById('contractList');
+const addContractModal = document.getElementById('addContractModal');
+const closeModal = document.getElementById('closeModal');
+const selectFileBtn = document.getElementById('selectFileBtn');
+const fileInput = document.getElementById('fileInput');
+const filePreview = document.getElementById('filePreview');
+const pagesContainer = document.getElementById('pagesContainer');
+const signatoriesSection = document.getElementById('signatoriesSection');
+const addSignatoryBtn = document.getElementById('addSignatoryBtn');
+const signatoriesList = document.getElementById('signatoriesList');
+const saveContractBtn = document.getElementById('saveContractBtn');
+let signatoryCount = 0;
 
-// Abrir o seletor de arquivos ao clicar em "Adicionar Contrato"
+// Abre o modal ao clicar em "Adicionar Contrato"
 addContractBtn.addEventListener('click', () => {
-    contractFileInput.click();
+    addContractModal.style.display = 'flex';
 });
 
-// Lidar com o upload de arquivos
-contractFileInput.addEventListener('change', (event) => {
+// Fecha o modal
+closeModal.addEventListener('click', () => {
+    addContractModal.style.display = 'none';
+});
+
+// Seleciona o arquivo ao clicar no botão "Selecionar Arquivo"
+selectFileBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+
+// Processa o arquivo selecionado e exibe as páginas
+fileInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (file) {
-        addToHistory(file);
+        // Exibir visualização de páginas do documento (implementação simplificada)
+        pagesContainer.innerHTML = `<p>Visualização do documento: ${file.name}</p>`;
+        filePreview.style.display = 'block';
+        
+        // Mostrar a seção para adicionar signatários
+        signatoriesSection.style.display = 'block';
     }
 });
 
-// Adiciona o contrato ao histórico
-function addToHistory(file) {
+// Adiciona um novo signatário
+addSignatoryBtn.addEventListener('click', () => {
+    if (signatoryCount >= 4) {
+        alert('O número máximo de signatários é 4.');
+        return;
+    }
+
+    const signatoryDiv = document.createElement('div');
+    signatoryDiv.classList.add('signatory');
+    signatoryDiv.innerHTML = `
+        <input type="text" placeholder="Nome Completo" required>
+        <input type="text" placeholder="CPF" required>
+        <input type="text" placeholder="Celular" required>
+        <input type="email" placeholder="E-mail" required>
+        <button class="btn remove-signatory-btn">Remover</button>
+    `;
+
+    // Remover signatário ao clicar no botão "Remover"
+    signatoryDiv.querySelector('.remove-signatory-btn').addEventListener('click', () => {
+        signatoryDiv.remove();
+        signatoryCount--;
+        toggleSaveButton();
+    });
+
+    signatoriesList.appendChild(signatoryDiv);
+    signatoryCount++;
+    toggleSaveButton();
+});
+
+// Exibe o botão "Salvar Contrato" se houver pelo menos 1 signatário
+function toggleSaveButton() {
+    saveContractBtn.style.display = signatoryCount > 0 ? 'block' : 'none';
+}
+
+// Salva o contrato e o adiciona ao histórico
+saveContractBtn.addEventListener('click', () => {
+    const fileName = fileInput.files[0].name;
+    addToHistory(fileName);
+
+    // Fecha o modal após salvar
+    addContractModal.style.display = 'none';
+
+    // Limpa o modal para a próxima adição de contrato
+    fileInput.value = '';
+    pagesContainer.innerHTML = '';
+    filePreview.style.display = 'none';
+    signatoriesList.innerHTML = '';
+    signatoriesSection.style.display = 'none';
+    signatoryCount = 0;
+    toggleSaveButton();
+});
+
+// Adiciona o contrato ao histórico de contratos
+function addToHistory(fileName) {
     const li = document.createElement('li');
     li.innerHTML = `
-        ${file.name}
+        ${fileName}
         <div class="buttons-container">
             <button class="btn view-btn">Visualizar</button>
             <button class="btn analyze-btn">Analisar</button>
@@ -27,72 +103,19 @@ function addToHistory(file) {
         </div>
     `;
 
-    // Botão de Visualizar
-    li.querySelector('.view-btn').addEventListener('click', () => viewContract(file));
-    // Botão de Analisar
-    li.querySelector('.analyze-btn').addEventListener('click', () => analyzeContract(file));
-    // Botão de Excluir
+    // Configurações dos botões
+    li.querySelector('.view-btn').addEventListener('click', () => viewContract(fileName));
+    li.querySelector('.analyze-btn').addEventListener('click', () => analyzeContract(fileName));
     li.querySelector('.delete-btn').addEventListener('click', () => li.remove());
 
     contractList.appendChild(li);
 }
 
-// Função para visualizar o contrato
-function viewContract(file) {
-    const url = URL.createObjectURL(file);
-    window.open(url, '_blank');
+// Funções de visualização e análise do contrato
+function viewContract(fileName) {
+    alert(`Visualizando: ${fileName}`);
 }
 
-// Função para analisar o contrato
-async function analyzeContract(file) {
-    try {
-        const formData = new FormData();
-        formData.append('pdf', file);
-
-        const response = await fetch('http://localhost:3000/analyze-pdf', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            alert(`Análise do Contrato:\n\n${data.analysis}`);
-        } else {
-            alert('Erro ao analisar o contrato.');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao se comunicar com o servidor.');
-    }
+function analyzeContract(fileName) {
+    alert(`Analisando: ${fileName}`);
 }
-
-document.getElementById('userMenuBtn').addEventListener('click', function(event) {
-    event.stopPropagation(); // Impede que o evento de clique se propague para o documento
-    const dropdownContent = document.querySelector('.dropdown-content');
-    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-});
-
-// Fecha o dropdown se o usuário clicar fora dele
-window.addEventListener('click', function(event) {
-    const dropdowns = document.getElementsByClassName("dropdown-content");
-    for (let i = 0; i < dropdowns.length; i++) {
-        const openDropdown = dropdowns[i];
-        if (openDropdown.style.display === 'block') {
-            openDropdown.style.display = 'none';
-        }
-    }
-});
-document.getElementById('saveProfileBtn').addEventListener('click', function() {
-    alert('Alterações salvas com sucesso!');
-});
-
-document.getElementById('cancelProfileBtn').addEventListener('click', function() {
-    window.location.href = '../pages/home.html'; // Redireciona para a página inicial
-});
-
-
-// servicesScript.js
-document.getElementById('logo').addEventListener('click', function() {
-    const homePage = isUserLoggedIn() ? 'home_logged.html' : 'home.html';
-    window.location.href = homePage;
-});

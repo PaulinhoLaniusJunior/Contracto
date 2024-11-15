@@ -31,7 +31,33 @@
         </div>
     </section>
     
-    <!-- Input oculto para selecionar arquivo -->
-    <input type="file" id="contractFileInput" accept=".pdf,.docx,.txt" style="display:none;">
+    <!-- Modal para Adicionar Contrato -->
+<div id="addContractModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h2>Adicionar Contrato</h2>
+
+        <!-- Botão para abrir o seletor de arquivos -->
+        <button id="selectFileBtn" class="btn">Selecionar Arquivo</button>
+        <input type="file" id="fileInput" accept=".pdf,.docx,.txt" style="display:none;">
+
+        <!-- Visualização de páginas do documento -->
+        <div id="filePreview" class="file-preview" style="display:none;">
+            <h3>Páginas do Documento</h3>
+            <div id="pagesContainer"></div>
+        </div>
+
+        <!-- Seção para adicionar signatários -->
+        <div id="signatoriesSection" class="signatories-section" style="display:none;">
+            <h3>Adicionar Signatário</h3>
+            <button id="addSignatoryBtn" class="btn">Adicionar Signatário</button>
+            <div id="signatoriesList"></div>
+        </div>
+
+        <!-- Botão para salvar o contrato -->
+        <button id="saveContractBtn" class="btn" style="display:none;">Salvar Contrato</button>
+    </div>
+</div>
+
 </body>
 </html>
