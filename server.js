@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve arquivos estáticos da pasta public
+app.use(express.static('public')); // Serve arquivos estáticos da pasta publich
 
 // Rota de Login
 app.post('/login', (req, res) => {
@@ -32,11 +32,11 @@ app.post('/login', (req, res) => {
             // Verifica se a senha está criptografada (assumindo que senhas bcrypt começam com $2b$)
             if (!storedPassword.startsWith('$2b$')) {
                 console.log('Senha em texto simples detectada, verificando sem criptografia...');
-                
+
                 // Compara a senha diretamente se estiver em texto simples
                 if (storedPassword === password) {
                     console.log('Senha correta, atualizando para criptografia...');
-                    
+
                     // Se a senha for válida, criptografa e atualiza no banco de dados
                     bcrypt.hash(password, 10, (err, hashedPassword) => {
                         if (err) {
@@ -85,42 +85,114 @@ app.post('/login', (req, res) => {
 });
 
 // Rota de Registro
+// Rota de Registro (dados básicos)
 app.post('/register', (req, res) => {
-    console.log('requisição de registro recebida', req.body);
-    const { email, password } = req.body;
+    console.log('Requisição de registro recebida:', req.body);
 
-    console.log('Tentativa de registro com email:', email); // Log para depuração
+    const { nome, email, cpf, password } = req.body;
 
-    const checkUserQuery = 'SELECT * FROM users WHERE email = ?';
-    db.query(checkUserQuery, [email], (err, result) => {
+    // Verifica se todos os campos básicos foram preenchidos
+    if (!nome || !email || !cpf || !password) {
+        return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios.' });
+    }
+
+    console.log('Tentativa de registro com email:', email);
+
+    // Verifica se o email ou CPF já estão registrados
+    const checkUserQuery = 'SELECT * FROM users WHERE email = ? OR cpf = ?';
+    db.query(checkUserQuery, [email, cpf], (err, result) => {
         if (err) {
-            console.error('Erro ao consultar o banco de dados:', err); // Log do erro
+            console.error('Erro ao consultar o banco de dados:', err);
             return res.status(500).json({ success: false, message: 'Erro no servidor.' });
         }
 
         if (result.length > 0) {
-            console.log('Email já registrado:', email); // Log de email já registrado
-            res.json({ success: false, message: 'Este email já está registrado.' });
+            console.log('Email ou CPF já registrado:', { email, cpf });
+            res.json({ success: false, message: 'Este email ou CPF já está registrado.' });
         } else {
-            // Criptografa a senha antes de armazená-la
+            // Criptografa a senha antes de salvar no banco
             bcrypt.hash(password, 10, (err, hashedPassword) => {
                 if (err) {
-                    console.error('Erro ao criptografar a senha:', err); // Log do erro
+                    console.error('Erro ao criptografar a senha:', err);
                     return res.status(500).json({ success: false, message: 'Erro no servidor.' });
                 }
 
-                const query = 'INSERT INTO users (email, password) VALUES (?, ?)';
-                db.query(query, [email, hashedPassword], (err, result) => {
+                // Insere apenas os dados básicos
+                const query = 'INSERT INTO users (nome, email, password, cpf) VALUES (?, ?, ?, ?)';
+                const values = [nome, email, hashedPassword, cpf];
+
+                db.query(query, values, (err, result) => {
                     if (err) {
-                        console.error('Erro ao registrar usuário:', err); // Log do erro
+                        console.error('Erro ao registrar usuário:', err);
                         return res.status(500).json({ success: false, message: 'Erro ao registrar.' });
                     }
 
-                    console.log('Usuário registrado com sucesso:', email); // Log de sucesso
-                    res.json({ success: true, message: 'Registrado com sucesso!' });
+                    console.log('Usuário registrado com sucesso:', email);
+                    res.json({ success: true, message: 'Usuário registrado com sucesso!' });
                 });
             });
         }
+    });
+});
+
+// Rota para atualizar informações de um usuário
+app.put('/update-user', (req, res) => {
+    const { cpf, data_nascimento, rua, numero, cep, bairro, cidade } = req.body;
+
+    // Verifica se o CPF foi enviado
+    if (!cpf) {
+        return res.status(400).json({ success: false, message: 'O CPF é obrigatório para a atualização.' });
+    }
+
+    console.log('Tentativa de atualização para o CPF:', cpf);
+
+    // a query dinâmica para incluir apenas os campos enviados
+    let query = 'UPDATE users SET ';
+    const values = [];
+
+    if (data_nascimento) {
+        query += 'data_nascimento = ?, ';
+        values.push(data_nascimento);
+    }
+    if (rua) {
+        query += 'rua = ?, ';
+        values.push(rua);
+    }
+    if (numero) {
+        query += 'numero = ?, ';
+        values.push(numero);
+    }
+    if (cep) {
+        query += 'cep = ?, ';
+        values.push(cep);
+    }
+    if (bairro) {
+        query += 'bairro = ?, ';
+        values.push(bairro);
+    }
+    if (cidade) {
+        query += 'cidade = ?, ';
+        values.push(cidade);
+    }
+
+    // Remove a vírgula final e adiciona a cláusula WHERE
+    query = query.slice(0, -2) + ' WHERE cpf = ?';
+    values.push(cpf);
+
+    // Executa a consulta no banco de dados
+    db.query(query, values, (err, result) => {
+        if (err) {
+            console.error('Erro ao atualizar o usuário:', err);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao atualizar os dados.' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.log('Nenhum usuário encontrado com o CPF informado:', cpf);
+            return res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
+        }
+
+        console.log('Usuário atualizado com sucesso:', cpf);
+        res.json({ success: true, message: 'Dados atualizados com sucesso!' });
     });
 });
 
