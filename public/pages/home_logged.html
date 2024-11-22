@@ -1,37 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../css/stylehome_logged.css">
     <title>Contracto - Home (Logado)</title>
 </head>
-
 <body>
-    <div class="user-menu">
-        <button id="userMenuBtn" class="user-btn">Usuário ▼</button>
-        <div class="dropdown-content">
-            <a href="../pages/profile.html">Meu perfil</a>
-            <a href="../pages/home.html">Sair</a>
-        </div>
-    </div>
-
     <header>
-        <h1>Bem-vindo(a) ao Contracto!</h1>
-        <button id="logoutBtn">Sair</button>
+        <a href="#" class="logo">Contracto</a>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="user-menu">
+            <button id="userMenuBtn" class="user-btn">Usuário ▼</button>
+            <div class="dropdown-content">
+                <a href="../pages/profile.html">Meu perfil</a>
+                <a href="../pages/servicos.html">Serviço</a>
+                <a href="../pages/home.html">Sair</a>
+            </div>
+        </div>
     </header>
 
-    <section class="content">
-        <h2>Você está logado!</h2>
-        <p>Explore as funcionalidades disponíveis para gerenciar seus contratos.</p>
+    <section class="home">
+        <div class="home-content">
+            <h1>Bem vindo(a) ao <span>Contracto</span>!</h1>
+            <p>Você está logado! Explore as funcionalidades disponíveis para gerenciar seus contratos.</p>
+        </div>
     </section>
-
+    
+    <!-- Nova seção de Contato -->
+    <section id="contact" class="contact">
+        <h2>Contate-nos</h2>
+        <div class="contact-content">
+            <p>Email: contato@contracto.com</p>
+            <p>Telefone: (62) 1234-5678</p>
+            <p>Endereço: Rua Exemplo, 123, Goiânia, GO</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </section>
+    
     <script src="../js/auth.js"></script>
+    
     <script>
         // Adiciona o evento de logout ao botão
         document.getElementById('logoutBtn').addEventListener('click', logout);
     </script>
-</body>
 
+    <script>
+        const userMenuBtn = document.getElementById("userMenuBtn");
+        const dropdownContent = document.querySelector(".dropdown-content");
+    
+        userMenuBtn.addEventListener("click", () => {
+            // Alterna a visibilidade do menu suspenso
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+    
+        // Fecha o menu suspenso se o usuário clicar fora dele
+        window.addEventListener("click", (event) => {
+            if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
+                dropdownContent.style.display = "none";
+            }
+        });
+    </script>
+    
+</body>
 </html>

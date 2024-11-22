@@ -39,6 +39,7 @@ header {
 }
 
 .user-menu {
+    position: relative; /* Adiciona contexto de posicionamento */
     display: flex;
     align-items: center;
 }
@@ -65,14 +66,14 @@ header {
 }
 
 .dropdown-content {
-    display: none;
+    display: none; /* Inicialmente oculto */
     position: absolute;
+    top: 100%; /* Posiciona o menu abaixo do botão */
     left: 0;
-    top: 100%;
     background-color: white;
     min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Garante que o menu fique acima de outros elementos */
 }
 
 .dropdown-content a {
