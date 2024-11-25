@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const db = require('./db_config');
 const cors = require('cors');
 const bcrypt = require('bcrypt'); // Adicionado para criptografia de senha
+const jwwt = require('jsonwebtoken'); // Adicione no topo do arquivo para importar o pacote
 
 const app = express();
 
@@ -13,77 +14,44 @@ app.use(express.static('public')); // Serve arquivos estáticos da pasta publich
 // Rota de Login
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log('Dados recebidos:', email, password);
-
-    console.log('Login attempt with email:', email); // Log para depuração
 
     const query = 'SELECT * FROM users WHERE email = ?';
     db.query(query, [email], (err, result) => {
         if (err) {
-            console.error('Erro ao consultar o banco de dados:', err); // Log do erro
+            console.error('Erro ao consultar o banco de dados:', err);
             return res.status(500).json({ success: false, message: 'Erro no servidor.' });
         }
 
         if (result.length > 0) {
-            // Senha armazenada no banco de dados (pode ser criptografada ou não)
             const storedPassword = result[0].password;
-            console.log('Usuário encontrado, verificando senha...'); // Log para indicar que o usuário foi encontrado
 
-            // Verifica se a senha está criptografada (assumindo que senhas bcrypt começam com $2b$)
-            if (!storedPassword.startsWith('$2b$')) {
-                console.log('Senha em texto simples detectada, verificando sem criptografia...');
+            // Verifica se a senha está correta
+            bcrypt.compare(password, storedPassword, (err, isMatch) => {
+                if (err) {
+                    console.error('Erro ao comparar as senhas:', err);
+                    return res.status(500).json({ success: false, message: 'Erro no servidor.' });
+                }
 
-                // Compara a senha diretamente se estiver em texto simples
-                if (storedPassword === password) {
-                    console.log('Senha correta, atualizando para criptografia...');
+                if (isMatch) {
+                    // Gera o token JWT
+                    const token = jwt.sign({ email: result[0].email, id: result[0].id }, 'seu-segredo', {
+                        expiresIn: '1h', // Expira em 1 hora
+                    });
 
-                    // Se a senha for válida, criptografa e atualiza no banco de dados
-                    bcrypt.hash(password, 10, (err, hashedPassword) => {
-                        if (err) {
-                            console.error('Erro ao criptografar a senha:', err); // Log do erro
-                            return res.status(500).json({ success: false, message: 'Erro ao atualizar a senha.' });
-                        }
-
-                        // Atualiza a senha no banco de dados com a nova versão criptografada
-                        const updateQuery = 'UPDATE users SET password = ? WHERE email = ?';
-                        db.query(updateQuery, [hashedPassword, email], (err, result) => {
-                            if (err) {
-                                console.error('Erro ao salvar a senha criptografada:', err); // Log do erro
-                                return res.status(500).json({ success: false, message: 'Erro ao salvar a senha criptografada.' });
-                            }
-
-                            console.log('Senha atualizada com sucesso para usuário:', email); // Log de sucesso
-                            res.json({ success: true, message: 'Login realizado com sucesso!' });
-                        });
+                    res.json({
+                        success: true,
+                        message: 'Login realizado com sucesso!',
+                        token: token,
                     });
                 } else {
-                    console.log('Senha incorreta.'); // Log de senha incorreta
                     res.json({ success: false, message: 'Senha incorreta.' });
                 }
-            } else {
-                // Se a senha já estiver criptografada, compara usando bcrypt
-                bcrypt.compare(password, storedPassword, (err, isMatch) => {
-                    if (err) {
-                        console.error('Erro ao comparar as senhas:', err); // Log de erro
-                        return res.status(500).json({ success: false, message: 'Erro no servidor.' });
-                    }
-
-                    if (isMatch) {
-                        console.log('Senha correta, login realizado com sucesso!'); // Log de sucesso
-                        res.json({ success: true, message: 'Login realizado com sucesso!' });
-                    } else {
-                        console.log('Senha incorreta.'); // Log de senha incorreta
-                        res.json({ success: false, message: 'Senha incorreta.' });
-                    }
-                });
-            }
+            });
         } else {
-            console.log('Usuário não encontrado.'); // Log quando o usuário não é encontrado
-            res.json({ success: false, message: 'Usuário não encontrado. Redirecionando para o registro.' });
+            res.json({ success: false, message: 'Usuário não encontrado.' });
         }
     });
 });
-
 // Rota de Registro
 // Rota de Registro (dados básicos)
 app.post('/register', (req, res) => {
@@ -195,6 +163,20 @@ app.put('/update-user', (req, res) => {
         res.json({ success: true, message: 'Dados atualizados com sucesso!' });
     });
 });
+
+
+function authenticateToken(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1]; // Obtém o token do cabeçalho
+
+    if (!token) return res.sendStatus(401); // Sem token
+
+    jwt.verify(token, 'seu-segredo', (err, user) => {
+        if (err) return res.sendStatus(403); // Token inválido
+        req.user = user; // Adiciona dados do usuário ao request
+        next();
+    });
+}
+
 
 // Inicia o servidor
 app.listen(3000, () => {
