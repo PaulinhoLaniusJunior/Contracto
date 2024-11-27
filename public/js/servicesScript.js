@@ -1,3 +1,4 @@
+// Seleção dos elementos do modal e botões
 const addContractBtn = document.getElementById('addContractBtn');
 const addContractModal = document.getElementById('addContractModal');
 const closeModal = document.getElementById('closeModal');
@@ -5,90 +6,112 @@ const selectFileBtn = document.getElementById('selectFileBtn');
 const fileInput = document.getElementById('fileInput');
 const filePreview = document.getElementById('filePreview');
 const pagesContainer = document.getElementById('pagesContainer');
-const signatoriesSection = document.getElementById('signatoriesSection');
-const addSignatoryBtn = document.getElementById('addSignatoryBtn');
-const signatoriesList = document.getElementById('signatoriesList');
 const saveContractBtn = document.getElementById('saveContractBtn');
-let signatoryCount = 0;
+
+const signContractModal = document.getElementById('signContractModal');
+const closeSignModal = document.getElementById('closeSignModal');
+const signPreview = document.getElementById('signPreview');
+const positionSignatureBtn = document.getElementById('positionSignatureBtn');
+const drawSignatureBtn = document.getElementById('drawSignatureBtn');
+const signatureCanvas = document.getElementById('signatureCanvas');
+const saveSignatureBtn = document.getElementById('saveSignatureBtn');
 
 // Abre o modal ao clicar em "Adicionar Contrato"
 addContractBtn.addEventListener('click', () => {
-    addContractModal.style.display = 'flex';
+    addContractModal.style.display = 'flex';  // Exibe o modal
 });
 
 // Fecha o modal
 closeModal.addEventListener('click', () => {
-    addContractModal.style.display = 'none';
+    addContractModal.style.display = 'none';  // Esconde o modal
 });
 
 // Seleciona o arquivo ao clicar no botão "Selecionar Arquivo"
 selectFileBtn.addEventListener('click', () => {
-    fileInput.click();
+    fileInput.click();  // Abre o seletor de arquivos
 });
 
 // Processa o arquivo selecionado e exibe as páginas
+// Mostra o botão "Salvar Contrato" ao selecionar o arquivo
 fileInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (file) {
-        // Exibir visualização de páginas do documento (implementação simplificada)
-        pagesContainer.innerHTML = `<p>Visualização do documento: ${file.name}</p>`;
+        const fileType = file.type;
+
+        // Limpa a prévia do arquivo
+        pagesContainer.innerHTML = '';
+
+        if (fileType === 'application/pdf') {
+            // Configurar o PDF.js
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+            const fileReader = new FileReader();
+            fileReader.onload = async (e) => {
+                const typedArray = new Uint8Array(e.target.result);
+                const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+                for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                    const page = await pdf.getPage(pageNumber);
+                    const viewport = page.getViewport({ scale: 1 });
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport,
+                    }).promise;
+
+                    const pageContainer = document.createElement('div');
+                    pageContainer.classList.add('page-container');
+                    pageContainer.appendChild(canvas);
+                    pagesContainer.appendChild(pageContainer);
+                }
+            };
+            fileReader.readAsArrayBuffer(file);
+        } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            const fileReader = new FileReader();
+            fileReader.onload = async (e) => {
+                const result = await mammoth.extractRawText({ arrayBuffer: e.target.result });
+                const pageContainer = document.createElement('div');
+                pageContainer.classList.add('page-container');
+                pageContainer.textContent = result.value;
+                pagesContainer.appendChild(pageContainer);
+            };
+            fileReader.readAsArrayBuffer(file);
+        } else if (fileType === 'text/plain') {
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+                const pageContainer = document.createElement('div');
+                pageContainer.classList.add('page-container');
+                pageContainer.textContent = e.target.result;
+                pagesContainer.appendChild(pageContainer);
+            };
+            fileReader.readAsText(file);
+        } else {
+            alert('Formato de arquivo não suportado. Por favor, selecione um PDF, DOCX ou TXT.');
+        }
+
         filePreview.style.display = 'block';
-        
-        // Mostrar a seção para adicionar signatários
-        signatoriesSection.style.display = 'block';
+        saveContractBtn.style.display = 'inline-block'; // Exibe o botão "Salvar Contrato"
     }
 });
 
-// Adiciona um novo signatário
-addSignatoryBtn.addEventListener('click', () => {
-    if (signatoryCount >= 4) {
-        alert('O número máximo de signatários é 4.');
-        return;
-    }
-
-    const signatoryDiv = document.createElement('div');
-    signatoryDiv.classList.add('signatory');
-    signatoryDiv.innerHTML = `
-        <input type="text" placeholder="Nome Completo" required>
-        <input type="text" placeholder="CPF" required>
-        <input type="text" placeholder="Celular" required>
-        <input type="email" placeholder="E-mail" required>
-        <button class="btn remove-signatory-btn">Remover</button>
-    `;
-
-    // Remover signatário ao clicar no botão "Remover"
-    signatoryDiv.querySelector('.remove-signatory-btn').addEventListener('click', () => {
-        signatoryDiv.remove();
-        signatoryCount--;
-        toggleSaveButton();
-    });
-
-    signatoriesList.appendChild(signatoryDiv);
-    signatoryCount++;
-    toggleSaveButton();
-});
-
-// Exibe o botão "Salvar Contrato" se houver pelo menos 1 signatário
-function toggleSaveButton() {
-    saveContractBtn.style.display = signatoryCount > 0 ? 'block' : 'none';
-}
-
-// Salva o contrato e o adiciona ao histórico
+// Adiciona o contrato ao histórico ao clicar em "Salvar Contrato"
 saveContractBtn.addEventListener('click', () => {
-    const fileName = fileInput.files[0].name;
-    addToHistory(fileName);
-
-    // Fecha o modal após salvar
-    addContractModal.style.display = 'none';
-
-    // Limpa o modal para a próxima adição de contrato
-    fileInput.value = '';
-    pagesContainer.innerHTML = '';
-    filePreview.style.display = 'none';
-    signatoriesList.innerHTML = '';
-    signatoriesSection.style.display = 'none';
-    signatoryCount = 0;
-    toggleSaveButton();
+    const fileName = fileInput.files[0]?.name || 'Contrato sem nome';
+    if (fileName) {
+        addToHistory(fileName);
+        alert('Contrato salvo com sucesso no histórico!');
+        // Reseta o estado do modal
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+        saveContractBtn.style.display = 'none';
+        addContractModal.style.display = 'none';
+    }
 });
 
 // Adiciona o contrato ao histórico de contratos
@@ -99,11 +122,13 @@ function addToHistory(fileName) {
         <div class="buttons-container">
             <button class="btn view-btn">Visualizar</button>
             <button class="btn analyze-btn">Analisar</button>
+            <button class="btn sign-btn">Assinar</button>
             <button class="btn delete-btn">Excluir</button>
         </div>
     `;
 
     // Configurações dos botões
+    li.querySelector('.sign-btn').addEventListener('click', () => openSignModal(fileName));
     li.querySelector('.view-btn').addEventListener('click', () => viewContract(fileName));
     li.querySelector('.analyze-btn').addEventListener('click', () => analyzeContract(fileName));
     li.querySelector('.delete-btn').addEventListener('click', () => li.remove());
@@ -133,45 +158,78 @@ const userMenuBtn = document.getElementById("userMenuBtn");
                 dropdownContent.style.display = "none";
             }
         });
+        
+        let selectedPosition = null; // Coordenadas para a assinatura
 
-        fileInput.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-        // Exibir visualização de páginas do documento
-        filePreview.style.display = 'block';
+        // Abre o modal de assinatura
+        function openSignModal(fileName) {
+            signContractModal.style.display = 'flex';
         
-        // Limpar qualquer renderização anterior
-        pagesContainer.innerHTML = '';
+            // Exibir o arquivo no modal
+            signPreview.innerHTML = '';
+            const fileContainer = document.createElement('div');
+            fileContainer.textContent = `Exibindo: ${fileName}`;
+            signPreview.appendChild(fileContainer);
+        }
         
-        // Criar um arquivo PDF usando pdf-lib
-        const pdfBytes = await file.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-        
-        // Iterar pelas páginas do PDF
-        const pages = pdfDoc.getPages();
-        pages.forEach((page, index) => {
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            
-            // Definir as dimensões do canvas
-            const { width, height } = page.getSize();
-            canvas.width = width;
-            canvas.height = height;
-            
-            // Renderizar a página do PDF no canvas
-            const renderContext = {
-                canvasContext: context,
-                viewport: page.getViewport({ scale: 1.5 }) // Ajuste o fator de escala conforme necessário
-            };
-            page.render(renderContext);
-
-            // Adicionar o canvas à página para visualização
-            pagesContainer.appendChild(canvas);
+        // Fecha o modal de assinatura
+        closeSignModal.addEventListener('click', () => {
+            signContractModal.style.display = 'none';
         });
-
-        // Mostrar a seção para adicionar signatários
-        signatoriesSection.style.display = 'block';
-    } else {
-        alert("Por favor, selecione um arquivo PDF.");
-    }
-});
+        
+        // Permite selecionar a posição da assinatura
+        positionSignatureBtn.addEventListener('click', () => {
+            alert('Clique no local onde deseja posicionar a assinatura.');
+            signPreview.addEventListener('click', (e) => {
+                const rect = signPreview.getBoundingClientRect();
+                selectedPosition = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+                drawSignatureBtn.style.display = 'block';
+                alert(`Posição escolhida: (${selectedPosition.x}, ${selectedPosition.y})`);
+            }, { once: true }); // Evento ocorre apenas uma vez
+        });
+        
+        // Abre o canvas para desenhar a assinatura
+        drawSignatureBtn.addEventListener('click', () => {
+            signatureCanvas.style.display = 'block';
+            saveSignatureBtn.style.display = 'block';
+        
+            const ctx = signatureCanvas.getContext('2d');
+            signatureCanvas.width = 400;
+            signatureCanvas.height = 200;
+            ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        
+            let drawing = false;
+        
+            signatureCanvas.addEventListener('mousedown', () => (drawing = true));
+            signatureCanvas.addEventListener('mouseup', () => (drawing = false));
+            signatureCanvas.addEventListener('mousemove', (e) => {
+                if (!drawing) return;
+                const rect = signatureCanvas.getBoundingClientRect();
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+            });
+        });
+        
+        // Salva a assinatura no documento
+        saveSignatureBtn.addEventListener('click', () => {
+            const signatureData = signatureCanvas.toDataURL();
+            if (!selectedPosition) {
+                alert('Selecione uma posição para a assinatura.');
+                return;
+            }
+        
+            // Renderizar a assinatura no documento (mockup)
+            const signatureImg = new Image();
+            signatureImg.src = signatureData;
+            signatureImg.style.position = 'absolute';
+            signatureImg.style.left = `${selectedPosition.x}px`;
+            signatureImg.style.top = `${selectedPosition.y}px`;
+            signPreview.appendChild(signatureImg);
+        
+            // Substituir o arquivo original com o assinado
+            alert('Assinatura adicionada com sucesso! O arquivo foi atualizado.');
+            signContractModal.style.display = 'none';
+        });
