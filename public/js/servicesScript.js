@@ -150,3 +150,17 @@ function viewContract(fileName) {
 function analyzeContract(fileName) {
     alert(`Analisando: ${fileName}`);
 }
+const userMenuBtn = document.getElementById("userMenuBtn");
+        const dropdownContent = document.querySelector(".dropdown-content");
+    
+        userMenuBtn.addEventListener("click", () => {
+            // Alterna a visibilidade do menu suspenso
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+    
+        // Fecha o menu suspenso se o usuário clicar fora dele
+        window.addEventListener("click", (event) => {
+            if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
+                dropdownContent.style.display = "none";
+            }
+        });
