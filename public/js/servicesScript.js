@@ -1,3 +1,10 @@
+// Verifica se o token existe no sessionStorage
+if (!sessionStorage.getItem('token')) {
+    alert('Acesso negado. Faça login para continuar.');
+    window.location.href = 'login.html'; // Redireciona para a página de login
+}
+
+// Seu código existente
 const addContractBtn = document.getElementById('addContractBtn');
 const addContractModal = document.getElementById('addContractModal');
 const closeModal = document.getElementById('closeModal');
@@ -119,59 +126,3 @@ function viewContract(fileName) {
 function analyzeContract(fileName) {
     alert(`Analisando: ${fileName}`);
 }
-const userMenuBtn = document.getElementById("userMenuBtn");
-        const dropdownContent = document.querySelector(".dropdown-content");
-    
-        userMenuBtn.addEventListener("click", () => {
-            // Alterna a visibilidade do menu suspenso
-            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-        });
-    
-        // Fecha o menu suspenso se o usuário clicar fora dele
-        window.addEventListener("click", (event) => {
-            if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
-                dropdownContent.style.display = "none";
-            }
-        });
-
-        fileInput.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
-        // Exibir visualização de páginas do documento
-        filePreview.style.display = 'block';
-        
-        // Limpar qualquer renderização anterior
-        pagesContainer.innerHTML = '';
-        
-        // Criar um arquivo PDF usando pdf-lib
-        const pdfBytes = await file.arrayBuffer();
-        const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-        
-        // Iterar pelas páginas do PDF
-        const pages = pdfDoc.getPages();
-        pages.forEach((page, index) => {
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            
-            // Definir as dimensões do canvas
-            const { width, height } = page.getSize();
-            canvas.width = width;
-            canvas.height = height;
-            
-            // Renderizar a página do PDF no canvas
-            const renderContext = {
-                canvasContext: context,
-                viewport: page.getViewport({ scale: 1.5 }) // Ajuste o fator de escala conforme necessário
-            };
-            page.render(renderContext);
-
-            // Adicionar o canvas à página para visualização
-            pagesContainer.appendChild(canvas);
-        });
-
-        // Mostrar a seção para adicionar signatários
-        signatoriesSection.style.display = 'block';
-    } else {
-        alert("Por favor, selecione um arquivo PDF.");
-    }
-});

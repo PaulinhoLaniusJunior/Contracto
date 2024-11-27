@@ -17,12 +17,14 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         message.textContent = data.message;
 
         if (data.success) {
-            sessionStorage.setItem('userLogged', 'true');
-            alert('Login realizado com sucesso!');
+            // Armazena o token JWT no sessionStorage
+            sessionStorage.setItem('token', data.token);
+            console.log('token foi armazenado', sessionStorage.getItem('token'))
+            //alert('Login realizado com sucesso!');
             window.location.href = 'servicos.html'; // Redireciona após login bem-sucedido
         } else {
             setTimeout(() => {
-                window.location.href = 'error.html';
+                window.location.href = 'error.html'; // Redireciona em caso de erro
             }, 2000);
         }
     })
