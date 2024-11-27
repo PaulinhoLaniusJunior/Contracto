@@ -1,3 +1,10 @@
+// Verifica se o token existe no sessionStorage
+if (!sessionStorage.getItem('token')) {
+    alert('Acesso negado. Faça login para continuar.');
+    window.location.href = 'login.html'; // Redireciona para a página de login
+}
+
+// Seu código existente
 // Seleção dos elementos do modal e botões
 const addContractBtn = document.getElementById('addContractBtn');
 const addContractModal = document.getElementById('addContractModal');
@@ -158,78 +165,45 @@ const userMenuBtn = document.getElementById("userMenuBtn");
                 dropdownContent.style.display = "none";
             }
         });
-        
-        let selectedPosition = null; // Coordenadas para a assinatura
 
-        // Abre o modal de assinatura
-        function openSignModal(fileName) {
-            signContractModal.style.display = 'flex';
+        fileInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/pdf') {
+        // Exibir visualização de páginas do documento
+        filePreview.style.display = 'block';
         
-            // Exibir o arquivo no modal
-            signPreview.innerHTML = '';
-            const fileContainer = document.createElement('div');
-            fileContainer.textContent = `Exibindo: ${fileName}`;
-            signPreview.appendChild(fileContainer);
-        }
+        // Limpar qualquer renderização anterior
+        pagesContainer.innerHTML = '';
         
-        // Fecha o modal de assinatura
-        closeSignModal.addEventListener('click', () => {
-            signContractModal.style.display = 'none';
+        // Criar um arquivo PDF usando pdf-lib
+        const pdfBytes = await file.arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+        
+        // Iterar pelas páginas do PDF
+        const pages = pdfDoc.getPages();
+        pages.forEach((page, index) => {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            // Definir as dimensões do canvas
+            const { width, height } = page.getSize();
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Renderizar a página do PDF no canvas
+            const renderContext = {
+                canvasContext: context,
+                viewport: page.getViewport({ scale: 1.5 }) // Ajuste o fator de escala conforme necessário
+            };
+            page.render(renderContext);
+
+            // Adicionar o canvas à página para visualização
+            pagesContainer.appendChild(canvas);
         });
-        
-        // Permite selecionar a posição da assinatura
-        positionSignatureBtn.addEventListener('click', () => {
-            alert('Clique no local onde deseja posicionar a assinatura.');
-            signPreview.addEventListener('click', (e) => {
-                const rect = signPreview.getBoundingClientRect();
-                selectedPosition = {
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top
-                };
-                drawSignatureBtn.style.display = 'block';
-                alert(`Posição escolhida: (${selectedPosition.x}, ${selectedPosition.y})`);
-            }, { once: true }); // Evento ocorre apenas uma vez
-        });
-        
-        // Abre o canvas para desenhar a assinatura
-        drawSignatureBtn.addEventListener('click', () => {
-            signatureCanvas.style.display = 'block';
-            saveSignatureBtn.style.display = 'block';
-        
-            const ctx = signatureCanvas.getContext('2d');
-            signatureCanvas.width = 400;
-            signatureCanvas.height = 200;
-            ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
-        
-            let drawing = false;
-        
-            signatureCanvas.addEventListener('mousedown', () => (drawing = true));
-            signatureCanvas.addEventListener('mouseup', () => (drawing = false));
-            signatureCanvas.addEventListener('mousemove', (e) => {
-                if (!drawing) return;
-                const rect = signatureCanvas.getBoundingClientRect();
-                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-                ctx.stroke();
-            });
-        });
-        
-        // Salva a assinatura no documento
-        saveSignatureBtn.addEventListener('click', () => {
-            const signatureData = signatureCanvas.toDataURL();
-            if (!selectedPosition) {
-                alert('Selecione uma posição para a assinatura.');
-                return;
-            }
-        
-            // Renderizar a assinatura no documento (mockup)
-            const signatureImg = new Image();
-            signatureImg.src = signatureData;
-            signatureImg.style.position = 'absolute';
-            signatureImg.style.left = `${selectedPosition.x}px`;
-            signatureImg.style.top = `${selectedPosition.y}px`;
-            signPreview.appendChild(signatureImg);
-        
-            // Substituir o arquivo original com o assinado
-            alert('Assinatura adicionada com sucesso! O arquivo foi atualizado.');
-            signContractModal.style.display = 'none';
-        });
+
+        // Mostrar a seção para adicionar signatários
+        signatoriesSection.style.display = 'block';
+    } else {
+        alert("Por favor, selecione um arquivo PDF.");
+    }
+});

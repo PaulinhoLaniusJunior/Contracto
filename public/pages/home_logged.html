@@ -8,67 +8,72 @@
     <title>Contracto - Home (Logado)</title>
 </head>
 <body>
-    <header>
-        <a href="#" class="logo">Contracto</a>
-        <nav>
-            <a href="#" class="active">Home</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <div class="user-menu">
-            <button id="userMenuBtn" class="user-btn">Usuário ▼</button>
-            <div class="dropdown-content">
-                <a href="../pages/profile.html">Meu perfil</a>
-                <a href="../pages/servicos.html">Serviço</a>
-                <a href="../pages/home.html">Sair</a>
-            </div>
+<header>
+    <a href="#" class="logo">Contracto</a>
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <div class="user-menu">
+        <button id="userMenuBtn" class="user-btn">Usuário ▼</button>
+        <div class="dropdown-content">
+            <a href="../pages/profile.html">Meu perfil</a>
+            <a href="../pages/servicos.html">Serviço</a>
+            <a href="../pages/home.html">Sair</a>
         </div>
-    </header>
+    </div>
+</header>
 
-    <section class="home">
-        <div class="home-content">
-            <h1>Bem vindo(a) ao <span>Contracto</span>!</h1>
-            <p>Você está logado! Explore as funcionalidades disponíveis para gerenciar seus contratos.</p>
-        </div>
-    </section>
-    
-    <!-- Nova seção de Contato -->
-    <section id="contact" class="contact">
-        <h2>Contate-nos</h2>
-        <div class="contact-content">
-            <p>Email: contato@contracto.com</p>
-            <p>Telefone: (62) 1234-5678</p>
-            <p>Endereço: Rua Exemplo, 123, Goiânia, GO</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-    </section>
-    
-    <script src="../js/auth.js"></script>
-    
-    <script>
-        // Adiciona o evento de logout ao botão
-        document.getElementById('logoutBtn').addEventListener('click', logout);
-    </script>
+<section class="home">
+    <div class="home-img">
+        <img src='../css/imagem6.png' alt="">
+    </div>
+    <div class="home-content">
+        <h1>Bem vindo ao <span>Contracto</span></h1>
+        <h3 class="typing-text">Um <span></span></h3>
+        <p>Simplifique sua gestão de contratos com uma plataforma inovadora e segura. Nosso sistema permite que você crie, gerencie, assine e analise contratos de forma eficiente e digital.</p>
 
-    <script>
-        const userMenuBtn = document.getElementById("userMenuBtn");
-        const dropdownContent = document.querySelector(".dropdown-content");
-    
-        userMenuBtn.addEventListener("click", () => {
-            // Alterna a visibilidade do menu suspenso
-            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-        });
-    
-        // Fecha o menu suspenso se o usuário clicar fora dele
-        window.addEventListener("click", (event) => {
-            if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
-                dropdownContent.style.display = "none";
-            }
-        });
-    </script>
-    
+    </div>
+</section>
+
+<!-- Nova seção de Contato -->
+<section id="contact" class="contact">
+    <h2>Contate-nos</h2>
+    <div class="contact-content">
+        <p>Email: contato@contracto.com</p>
+        <p>Telefone: (62) 1234-5678</p>
+        <p>Endereço: Rua Exemplo, 123, Goiânia, GO</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+</section>
+
+<script src="../js/auth.js"></script>
+
+<script>
+    // Adiciona o evento de logout ao botão
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+</script>
+
+<script>
+    const userMenuBtn = document.getElementById("userMenuBtn");
+    const dropdownContent = document.querySelector(".dropdown-content");
+
+    userMenuBtn.addEventListener("click", () => {
+        // Alterna a visibilidade do menu suspenso
+        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+    });
+
+    // Fecha o menu suspenso se o usuário clicar fora dele
+    window.addEventListener("click", (event) => {
+        if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
+            dropdownContent.style.display = "none";
+        }
+    });
+</script>
+
 </body>
 </html>

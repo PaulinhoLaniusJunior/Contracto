@@ -1,4 +1,4 @@
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
     
     * {
         margin: 0;
@@ -18,7 +18,7 @@
         width: 100%;
         height: 100vh;
         overflow-x: hidden;
-        background-color: white;
+        background-color: #c7d6d4;
         color: black;
     }
     
@@ -39,7 +39,7 @@
     
     .logo {
         font-size: 3rem;
-        color: #0a2cc3;
+        color: #399f92;
         font-weight: 800;
         cursor: pointer;
         transition: 0.5s ease;
@@ -60,8 +60,8 @@
     
     nav a:hover,
     nav a.active {
-        color: #0a2cc3;
-        border-bottom: 3px solid #0a2cc3;
+        color:  #399f92;
+        border-bottom: 3px solid  #399f92;
     }
     
     @media(max-width: 995px) {
@@ -71,8 +71,8 @@
             top: 0;
             right: 0;
             width: 40%;
-            border-left: 3px solid #0a2cc3;
-            border-bottom: 3px solid #0a2cc3;
+            border-left: 3px solid #399f92;
+            border-bottom: 3px solid #399f92;
             border-bottom-left-radius: 2rem;
             padding: 1rem solid;
             background-color: white;
@@ -93,7 +93,7 @@
         nav a.active {
             padding: 1rem;
             border-radius: 0.5rem;
-            border-bottom: 0.5rem solid #0a2cc3;
+            border-bottom: 0.5rem solid #399f92;
         }
     }
     
@@ -107,7 +107,7 @@
         justify-content: center;
         align-items: center;
         gap: 8rem;
-        background-image: url('');
+        background-image: url();
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -123,7 +123,7 @@
     }
     
     span {
-        color: #0a2cc3;
+        color: #399f92;
     }
     
     .home-content h3 {
@@ -142,9 +142,9 @@
     
     .home-img img {
         position: relative;
-        width: 32vw;
-        border-radius: 50%;
-        box-shadow: 0 0 25px solid #0a2cc3;
+        width: 50vw;
+        border-radius: 70%;
+        box-shadow: 0 0 25px solid #399f92;
         cursor: pointer;
         transition: 0.2s linear;
     }
@@ -156,10 +156,10 @@
         background-color: white;
         border-radius: 4rem;
         font-size: 1.6rem;
-        color: #0a2cc3;
+        color: #399f92;
         letter-spacing: 0.3rem;
         font-weight: 600;
-        border: 2px solid #0a2cc3;
+        border: 2px solid #399f92;
         transition: 0.3s ease;
         cursor: pointer;
     }
@@ -170,9 +170,9 @@
     
     .btn:hover,
     .btn-header:hover {
-        background-color: #0a2cc3;
+        background-color: #399f92;
         color: white;
-        box-shadow: 0 0 25px #0a2cc3;
+        box-shadow: 0 0 25px #399f92;
     }
     
     .typing-text {
@@ -187,24 +187,13 @@
     
     .typing-text span::before {
         content: "Gerenciador de contratos";
-        color: #0a2cc3;
+        color: #399f92;
         animation: words 20s infinite;
     }
-    
-    .typing-text span::after {
-        content: "";
-        background-color: white;
-        position: absolute;
-        width: 0;
-        height: 100%;
-        border-left: 3px solid white;
-        right: -8;
-        animation: cursor 0.6s infinite;
-    }
-    
+
     @keyframes cursor {
         to {
-            border-left: 3px solid #0a2cc3;
+            border-left: 3px solid #399f92;
         }
     }
     
@@ -241,14 +230,14 @@
     
     /* Estilos da seção de contato */
     .contact {
-        background-color: #f4f4f4;
+        background-color: #c7d6d4;
         padding: 250px 9%;
         text-align: center;
     }
     
     .contact h2 {
         font-size: 4rem;
-        color: #0a2cc3;
+        color: #399f92;
         margin-bottom: 2rem;
     }
     
@@ -258,7 +247,7 @@
     }
     
     .social-icons a {
-        color: #0a2cc3;
+        color: #399f92;
         font-size: 2rem;
         margin: 0 10px;
         transition: color 0.3s;
@@ -279,20 +268,22 @@
     }
     
     .user-btn, .btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 1.4rem;
-        color: white;
-        background-color: #0a2cc3;
+        padding: 1rem 2.8rem;
+        font-size: 1.6rem;
+        color:  #399f92;
+        letter-spacing: 0.3rem;
+        font-weight: 600;
+        background-color: white;
         border-radius: 4rem;
-        border: 2px solid transparent;
+        border: 2px solid #399f92;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
     
     .user-btn:hover, .btn:hover {
-        background-color: white;
-        color: #0a2cc3;
-        border: 2px solid #0a2cc3;
+        background-color: #399f92;
+        color:  white;
+        box-shadow: 0 0 25px #399f92;
     }
     
     .dropdown-content {
@@ -315,4 +306,3 @@
     .dropdown-content a:hover {
         background-color: #f1f1f1;
     }
-    

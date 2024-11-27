@@ -10,9 +10,12 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     display: flex;
-    background: url('../css/inicial.jfif') center center/cover no-repeat; /* Imagem no fundo */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    background: url('../css/imagem8.png') center center/cover no-repeat; /* Imagem no fundo */
+    background-size: cover; /* Garante que a imagem cobre a tela */
+    background-position: center center; /* Centraliza a imagem */
     position: relative;
-    justify-content: flex-start; /* Alinha o conteúdo à esquerda */
 }
 
 body::before {
@@ -22,94 +25,79 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Sobreposição escura na imagem de fundo */
-    z-index: 0; /* Fica atrás do conteúdo */
+    background: rgba(0, 0, 0, 0.2); /* Escurece o fundo */
+    z-index: 0;
 }
 
 .container {
-    position: absolute; /* Para ocupar toda a tela */
-    top: 0;
-    left: 0; /* Mover para a esquerda */
-    height: 100%;
-    width: 30%; /* Define a largura do formulário */
-    display: flex;
-    justify-content: flex-start; /* Alinha o conteúdo à esquerda */
-    align-items: center; /* Centraliza verticalmente */
+    width: 100%;
+    max-width: 600px; /* Define a largura máxima do formulário */
+    background: rgba(0, 0, 0, 0.2); /* Fundo escuro translúcido */
+    border-radius: 10px;
+    padding: 40px; /* Espaçamento interno */
+    backdrop-filter: blur(3px); /* Desfoque de fundo */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Sombra para destaque */
     z-index: 1; /* Fica acima da sobreposição */
 }
 
-.form-container {
-    width: 100%; /* Largura total do contêiner */
-    background: rgba(255, 255, 255, 0); /* Fundo mais transparente */
-    border-radius: 10px;
-    padding: 40px; /* Espaçamento interno */
-    backdrop-filter: blur(0px); /* Efeito de desfoque */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0); /* Sombra para profundidade */
-}
-
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    color: #ffffff; /* Cor do título */
+    font-size: 3rem; /* Tamanho do título */
+    margin-bottom: 2.5rem; /* Espaçamento inferior */
+    font-weight: 800;
+    color: #FFFFFF; /* Cor do título */
+    text-align: center;
 }
 
-span {
-    color: #555; /* Cor para o subtítulo */
-    display: block; /* Para ocupar toda a largura */
-    margin-bottom: 20px; /* Espaçamento inferior */
+h1 span {
+    color: #5C6BC0; /* Cor do destaque */
 }
 
-input {
-    padding: 12px;
-    font-size: 1rem;
+input, #reg_cpf {
+    padding: 18px; /* Aumenta o padding */
+    font-size: 1.2rem;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.8); /* Fundo mais claro para os inputs */
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo claro */
     width: 100%;
-    margin-bottom: 1.5rem; /* Espaçamento entre os inputs */
+    margin-bottom: 1.5rem; /* Espaçamento inferior */
 }
 
 button {
     width: 100%;
-    padding: 12px;
+    padding: 18px; /* Padding maior */
     border: none;
-    background-color: #5C6BC0;
+    background-color: #399f92;
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem; /* Tamanho maior da fonte */
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 2rem; /* Espaçamento superior */
+    transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
-    background-color: #3949AB;
+    background-color: #21665e;
 }
 
 p {
-    color: #fffbfb; /* Cor para os parágrafos */
+    color: #FFFFFF; /* Cor do texto */
+    margin-bottom: 2rem; /* Espaçamento inferior */
+    text-align: center;
 }
 
 a {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #5C6BC0; /* Cor do link */
+    color: #00ffdd; /* Cor do link */
     text-decoration: none;
+    display: inline-block;
+    margin-top: 1.5rem; /* Espaçamento superior */
+    text-align: center;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
 }
-#reg_cpf {
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 100%;
-    margin-bottom: 1.5rem;
-}
+
 /* Estilos das notificações */
 .notification-container {
     position: absolute;
@@ -148,7 +136,6 @@ a:hover {
     border: 1px solid #f5c6cb;
 }
 
-/* Animação para aparecer as notificações */
 @keyframes slideIn {
     from {
         opacity: 0;

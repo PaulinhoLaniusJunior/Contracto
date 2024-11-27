@@ -10,9 +10,12 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     display: flex;
-    background: url('../css/login.jfif') center center/cover no-repeat; /* Imagem no fundo */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    background: url('../css/imagem8.png') center center/cover no-repeat; /* Imagem no fundo */
+    background-size: cover; /* Aumenta o tamanho da imagem de fundo */
+    background-position: center center; /* Garante que a imagem seja centralizada */
     position: relative;
-    justify-content: flex-start; /* Alinha o conteúdo à esquerda */
 }
 
 body::before {
@@ -22,35 +25,33 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Sobreposição escura na imagem de fundo */
+    background: rgba(0, 0, 0, 0.2); /* Aumenta a opacidade para tornar o fundo mais escuro */
     z-index: 0; /* Fica atrás do conteúdo */
 }
 
 .left-side {
-    position: absolute; /* Fixado à esquerda */
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 30%; /* Ocupa 40% da largura da tela */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative; /* Retira o position absoluto */
+    width: 100%; /* Tira a largura fixa, permitindo o tamanho do conteúdo */
+    max-width: 600px; /* Aumenta a largura máxima do formulário */
+    background: rgba(0, 0, 0, 0.2); /* Fundo mais escuro */
+    border-radius: 10px;
+    padding: 40px; /* Aumenta o padding para dar mais espaço */
+    backdrop-filter: blur(3px); /* Efeito de desfoque mais forte */
     z-index: 1; /* Fica acima da sobreposição */
-    background: rgba(255, 255, 255, 0); /* Fundo mais translúcido (opacidade aumentada) */
-    backdrop-filter: blur(2px); /* Efeito de desfoque */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
 }
 
 .form-content {
-    width: 80%; /* Ajuste a largura do formulário */
-    background-color: transparent; /* Fundo transparente */
-    padding: 20px;
-    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens no form */
 }
 
 .logo h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    font-weight: 700;
+    font-size: 3rem; /* Aumenta o tamanho do título */
+    margin-bottom: 2.5rem; /* Aumenta o espaço abaixo do título */
+    font-weight: 800; /* Deixa o título mais forte */
     color: #FFFFFF;
 }
 
@@ -61,44 +62,46 @@ body::before {
 .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem; /* Aumenta o espaço entre os inputs */
 }
 
 .input-group label {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem; /* Aumenta o tamanho da fonte do label */
+    margin-bottom: 0.8rem; /* Aumenta o espaçamento entre label e input */
     color: #FFFFFF;
 }
 
 .input-group input {
-    padding: 12px;
-    font-size: 1rem;
+    padding: 18px; /* Aumenta o padding dos inputs */
+    font-size: 1.2rem; /* Tamanho de fonte maior */
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo mais claro para os inputs */
     width: 100%;
+    margin-bottom: 1rem; /* Adiciona mais espaço abaixo de cada input */
 }
 
 button {
     width: 100%;
-    padding: 12px;
+    padding: 18px; /* Aumenta o padding do botão */
     border: none;
-    background-color: #5C6BC0;
+    background-color:  #399f92;
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem; /* Aumenta o tamanho da fonte do botão */
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 2rem; /* Aumenta o espaço acima do botão */
+    transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
-    background-color: #3949AB;
+    background-color: #21665e;
 }
 
 a {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 1.5rem; /* Aumenta o espaço acima do link */
     color: #FFFFFF;
     text-decoration: none;
 }
@@ -110,16 +113,14 @@ a:hover {
 .form-content p {
     color: #FFFFFF; /* Cor do texto */
     text-align: left; /* Alinha o texto à esquerda */
-    margin-bottom: 1rem; /* Espaço abaixo do parágrafo */
+    margin-bottom: 2rem; /* Espaço abaixo do parágrafo */
 }
 
 .form-content a {
-    color: #5C6BC0; /* Cor do link */
+    color: #00ffdd; /* Cor do link */
     text-decoration: none; /* Remove o sublinhado */
 }
 
 .form-content a:hover {
     text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
 }
-
-

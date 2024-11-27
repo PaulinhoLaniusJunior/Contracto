@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="../css/styleService.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
     <script defer src="../js/servicesScript.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
     <title>Contracto - Serviços</title>
 </head>
 <body>
@@ -47,15 +48,23 @@
             <div id="pagesContainer"></div>
         </div>
 
-        <!-- Seção para adicionar signatários -->
-        <div id="signatoriesSection" class="signatories-section" style="display:none;">
-            <h3>Adicionar Signatário</h3>
-            <button id="addSignatoryBtn" class="btn">Adicionar Signatário</button>
-            <div id="signatoriesList"></div>
-        </div>
-
         <!-- Botão para salvar o contrato -->
         <button id="saveContractBtn" class="btn" style="display:none;">Salvar Contrato</button>
+    </div>
+</div>
+
+<!-- Modal para Assinar Contrato -->
+<div id="signContractModal" class="modal">
+    <div class="modal-content">
+        <span id="closeSignModal" class="close">&times;</span>
+        <h2>Assinar Contrato</h2>
+        <div id="signPreview" class="file-preview">
+            <!-- Exibição do documento aqui -->
+        </div>
+        <button id="positionSignatureBtn" class="btn">Posicionar Campo da Assinatura</button>
+        <button id="drawSignatureBtn" class="btn" style="display: none;">Desenhar Assinatura</button>
+        <canvas id="signatureCanvas" style="display: none; border: 1px solid #ccc;"></canvas>
+        <button id="saveSignatureBtn" class="btn" style="display: none;">Pronto</button>
     </div>
 </div>
 

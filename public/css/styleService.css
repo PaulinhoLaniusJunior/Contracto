@@ -207,3 +207,40 @@ textarea {
     margin-top: 20px;
     text-align: left;
 }
+/* Ajuste das páginas no modal */
+.page-container {
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+/* Configurações de canvas (para PDF) */
+.page-container canvas {
+    width: 100%; /* Responsividade */
+    max-width: 100%;
+    height: auto;
+}
+
+/* Limite de tamanho para as páginas */
+#pagesContainer {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+#signatureCanvas {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    cursor: crosshair;
+}
