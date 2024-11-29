@@ -40,7 +40,7 @@
 
         <!-- Botão para abrir o seletor de arquivos -->
         <button id="selectFileBtn" class="btn">Selecionar Arquivo</button>
-        <input type="file" id="fileInput" accept=".pdf,.docx,.txt" style="display:none;">
+        <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt" style="display:none;">
 
         <!-- Visualização de páginas do documento -->
         <div id="filePreview" class="file-preview" style="display:none;">
@@ -53,18 +53,34 @@
     </div>
 </div>
 
+<!-- Modal para Visualizar Contrato -->
+<div id="viewContractModal" class="modal">
+    <div class="modal-content">
+        <span id="closeViewModal" class="close">&times;</span>
+        <h2>Visualizar Contrato</h2>
+        <div id="documentPreview" class="file-preview">
+            <!-- O conteúdo do documento será exibido aqui -->
+        </div>
+    </div>
+</div>
+
 <!-- Modal para Assinar Contrato -->
-<div id="signContractModal" class="modal">
+<div id="signDocumentModal" class="modal">
     <div class="modal-content">
         <span id="closeSignModal" class="close">&times;</span>
-        <h2>Assinar Contrato</h2>
-        <div id="signPreview" class="file-preview">
-            <!-- Exibição do documento aqui -->
-        </div>
-        <button id="positionSignatureBtn" class="btn">Posicionar Campo da Assinatura</button>
-        <button id="drawSignatureBtn" class="btn" style="display: none;">Desenhar Assinatura</button>
-        <canvas id="signatureCanvas" style="display: none; border: 1px solid #ccc;"></canvas>
-        <button id="saveSignatureBtn" class="btn" style="display: none;">Pronto</button>
+        <h2>Desenhar Assinatura</h2>
+        <canvas id="signatureCanvas" width="500" height="200" style="border: 1px solid #ccc;"></canvas>
+        <button id="positionSignatureBtn" class="btn">Posicionar Local da Assinatura</button>
+    </div>
+</div>
+
+<!-- Modal para Posicionar Assinatura -->
+<div id="positionSignatureModal" class="modal">
+    <div class="modal-content">
+        <span id="closePositionModal" class="close">&times;</span>
+        <h2>Posicionar Assinatura</h2>
+        <div id="fullDocumentView"></div>
+        <button id="saveSignatureBtn" class="btn">Salvar</button>
     </div>
 </div>
 

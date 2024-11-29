@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
- 
+
 * {
     margin: 0;
     padding: 0;
@@ -9,11 +9,11 @@
     outline: none;
     font-family: 'Poppins', sans-serif;
 }
- 
+
 html {
-    font-size: 62.5%;
+    font-size: 60%;
 }
- 
+
 body {
     width: 100%;
     height: 100vh;
@@ -21,14 +21,14 @@ body {
     background-color: #c7d6d4;
     color: black;
 }
- 
+
 header {
-    margin-top: 20px;
+    margin-top: 10px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 1rem 9%;
+    padding: 0.6rem 6%;
     background-color: transparent;
     filter: drop-shadow(10px);
     display: flex;
@@ -36,34 +36,34 @@ header {
     align-items: center;
     z-index: 100;
 }
- 
+
 .logo {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #399f92;
     font-weight: 800;
     cursor: pointer;
     transition: 0.5s ease;
 }
- 
+
 .logo:hover {
     transform: scale(1.1);
 }
- 
+
 nav a {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: black;
-    margin-left: 4rem;
+    margin-left: 2.5rem;
     font-weight: 500;
     transition: 0.3s ease;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
 }
- 
+
 nav a:hover,
 nav a.active {
     color: #399f92;
-    border-bottom: 3px solid #399f92;
+    border-bottom: 2px solid #399f92;
 }
- 
+
 @media(max-width: 995px) {
     nav {
         position: absolute;
@@ -71,42 +71,42 @@ nav a.active {
         top: 0;
         right: 0;
         width: 40%;
-        border-left: 3px solid #399f92;
-        border-bottom: 3px solid #399f92;
+        border-left: 2px solid #399f92;
+        border-bottom: 2px solid #399f92;
         border-bottom-left-radius: 2rem;
-        padding: 1rem solid;
+        padding: 1rem;
         background-color: white;
         border-top: 0.1rem solid rgb(255, 255, 255);
     }
- 
+
     nav.active {
         display: block;
     }
- 
+
     nav a {
         display: block;
-        font-size: 2rem;
-        margin: 3rem 0;
+        font-size: 1.6rem;
+        margin: 2rem 0;
     }
- 
+
     nav a:hover,
     nav a.active {
-        padding: 1rem;
+        padding: 0.8rem;
         border-radius: 0.5rem;
-        border-bottom: 0.5rem solid #399f92;
+        border-bottom: 0.4rem solid #399f92;
     }
 }
- 
+
 section {
     min-height: 100vh;
-    padding: 5rem 9% 5rem;
+    padding: 3rem 6%;
 }
- 
+
 .home {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8rem;
+    gap: 5rem;
     background-image: url();
     background-size: cover;
     background-position: center;
@@ -114,77 +114,76 @@ section {
     background-repeat: no-repeat;
     color: black;
 }
- 
- 
+
 .home .home-content h1 {
-    font-size: 6rem;
+    font-size: 4rem;
     font-weight: 700;
     line-height: 1.3;
 }
- 
+
 span {
     color: #399f92;
 }
- 
+
 .home-content h3 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
     font-weight: 700;
 }
- 
+
 .home-content p {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
 }
- 
+
 .home-img {
     border-radius: 50%;
 }
- 
+
 .home-img img {
     position: relative;
-    width: 50vw;
+    width: 45vw;
     border-radius: 70%;
-    box-shadow: 0 0 25px solid #399f92;
+    box-shadow: 0 0 20px solid #399f92;
     cursor: pointer;
     transition: 0.2s linear;
 }
- 
+
 .btn,
 .btn-header {
     display: inline-block;
-    padding: 1rem 2.8rem;
+    padding: 0.5rem 1.8rem;
     background-color: white;
     border-radius: 4rem;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     color: #399f92;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
     font-weight: 600;
-    border: 2px solid #399f92;
+    border: 1px solid #399f92;
     transition: 0.3s ease;
     cursor: pointer;
 }
- 
+
 .btn-header {
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
- 
+
 .btn:hover,
 .btn-header:hover {
     background-color: #399f92;
     color: white;
-    box-shadow: 0 0 25px #399f92;
+    box-shadow: 0 0 15px #399f92;
 }
- 
+
 .typing-text {
-    font-size: 34px;
+    font-size: 24px;
     font-weight: 600;
-    min-width: 280px;
+    min-width: 200px;
 }
- 
+
 .typing-text span {
     position: relative;
 }
- 
+
 .typing-text span::before {
     content: "Gerenciador de contratos";
     color: #399f92;
@@ -196,63 +195,104 @@ span {
         border-left: 3px solid #399f92;
     }
 }
- 
+
 @media (max-width: 1000px) {
     .home {
-        gap: 4rem;
+        gap: 3rem;
     }
 }
- 
+
 @media(max-width: 995px) {
     .home {
         flex-direction: column;
-        margin: 5rem 4rem;
+        margin: 3rem 2rem;
     }
- 
+
     .home .home-content h3 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
- 
+
     .home-content h1 {
-        font-size: 5rem;
+        font-size: 3.5rem;
     }
- 
+
     .home-img img {
-        width: 70vw;
-        margin-top: 4rem;
+        width: 60vw;
+        margin-top: 3rem;
     }
 }
- 
-/* Scroll suave */
-html {
-    scroll-behavior: smooth;
-}
- 
-/* Estilos da seção de contato */
+
 .contact {
     background-color: #c7d6d4;
-    padding: 250px 9%;
+    padding: 200px 6%;
     text-align: center;
 }
- 
+
 .contact h2 {
-    font-size: 4rem;
+    font-size: 2.8rem;
     color: #399f92;
-    margin-bottom: 2rem;
-}
- 
-.contact-content p {
-    font-size: 1.8rem;
     margin-bottom: 1.5rem;
 }
- 
+
+.contact-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
 .social-icons a {
     color: #399f92;
-    font-size: 2rem;
-    margin: 0 10px;
+    font-size: 1.4rem;
+    margin: 0 5px;
     transition: color 0.3s;
 }
- 
+
 .social-icons a:hover {
     color: #555;
+}
+
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.user-btn {
+    display: inline-block;
+    padding: 0.5rem 1.8rem;
+    font-size: 1.2rem;
+    color: #399f92;
+    letter-spacing: 0.2rem;
+    font-weight: 600;
+    background-color: white;
+    border-radius: 4rem;
+    border: 1px solid #399f92;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-btn:hover {
+    background-color: #399f92;
+    color: white;
+    box-shadow: 0 0 15px #399f92;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 120px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 12px;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
 }

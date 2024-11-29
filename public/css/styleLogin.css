@@ -1,3 +1,4 @@
+/* Estilos gerais */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
@@ -10,11 +11,11 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    background: url('../css/imagem8.png') center center/cover no-repeat; /* Imagem no fundo */
-    background-size: cover; /* Aumenta o tamanho da imagem de fundo */
-    background-position: center center; /* Garante que a imagem seja centralizada */
+    justify-content: center;
+    align-items: center;
+    background: url('../css/imagem8.png') center center/cover no-repeat;
+    background-size: cover;
+    background-position: center center;
     position: relative;
 }
 
@@ -25,73 +26,73 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); /* Aumenta a opacidade para tornar o fundo mais escuro */
-    z-index: 0; /* Fica atrás do conteúdo */
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 0;
 }
 
 .left-side {
-    position: relative; /* Retira o position absoluto */
-    width: 100%; /* Tira a largura fixa, permitindo o tamanho do conteúdo */
-    max-width: 600px; /* Aumenta a largura máxima do formulário */
-    background: rgba(0, 0, 0, 0.2); /* Fundo mais escuro */
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    padding: 40px; /* Aumenta o padding para dar mais espaço */
-    backdrop-filter: blur(3px); /* Efeito de desfoque mais forte */
-    z-index: 1; /* Fica acima da sobreposição */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    padding: 20px;
+    backdrop-filter: blur(3px);
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .form-content {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens no form */
+    align-items: center;
 }
 
 .logo h1 {
-    font-size: 3rem; /* Aumenta o tamanho do título */
-    margin-bottom: 2.5rem; /* Aumenta o espaço abaixo do título */
-    font-weight: 800; /* Deixa o título mais forte */
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: 800;
     color: #FFFFFF;
 }
 
 .logo h1 span {
-    color: #5C6BC0; /* Cor do # */
+    color: #5C6BC0;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 2rem; /* Aumenta o espaço entre os inputs */
+    margin-bottom: 1.5rem;
 }
 
 .input-group label {
-    font-size: 1.2rem; /* Aumenta o tamanho da fonte do label */
-    margin-bottom: 0.8rem; /* Aumenta o espaçamento entre label e input */
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
     color: #FFFFFF;
 }
 
 .input-group input {
-    padding: 18px; /* Aumenta o padding dos inputs */
-    font-size: 1.2rem; /* Tamanho de fonte maior */
+    padding: 14px;
+    font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.9); /* Fundo mais claro para os inputs */
+    background-color: rgba(255, 255, 255, 0.9);
     width: 100%;
-    margin-bottom: 1rem; /* Adiciona mais espaço abaixo de cada input */
+    margin-bottom: 1rem;
 }
 
 button {
     width: 100%;
-    padding: 18px; /* Aumenta o padding do botão */
+    padding: 14px;
     border: none;
-    background-color:  #399f92;
+    background-color: #399f92;
     color: white;
-    font-size: 1.2rem; /* Aumenta o tamanho da fonte do botão */
+    font-size: 1rem;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 2rem; /* Aumenta o espaço acima do botão */
+    margin-top: 1.5rem;
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -101,7 +102,7 @@ button:hover {
 
 a {
     display: inline-block;
-    margin-top: 1.5rem; /* Aumenta o espaço acima do link */
+    margin-top: 1rem;
     color: #FFFFFF;
     text-decoration: none;
 }
@@ -111,16 +112,62 @@ a:hover {
 }
 
 .form-content p {
-    color: #FFFFFF; /* Cor do texto */
-    text-align: left; /* Alinha o texto à esquerda */
-    margin-bottom: 2rem; /* Espaço abaixo do parágrafo */
+    color: #FFFFFF;
+    text-align: left;
+    margin-bottom: 1.5rem;
 }
 
 .form-content a {
-    color: #00ffdd; /* Cor do link */
-    text-decoration: none; /* Remove o sublinhado */
+    color: #00ffdd;
+    text-decoration: none;
 }
 
 .form-content a:hover {
-    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+    text-decoration: underline;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .left-side {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .logo h1 {
+        font-size: 2rem;
+    }
+
+    .input-group input {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group input {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    a {
+        font-size: 0.8rem;
+    }
 }

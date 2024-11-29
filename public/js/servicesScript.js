@@ -2,7 +2,7 @@ if (!sessionStorage.getItem('token')) {
     alert('Acesso negado. Faça login para continuar.');
     window.location.href = 'login.html'; // Redireciona para a página de login
 }
-
+""
 // Seleção dos elementos do modal e botões
 const addContractBtn = document.getElementById('addContractBtn');
 const addContractModal = document.getElementById('addContractModal');
@@ -12,16 +12,15 @@ const fileInput = document.getElementById('fileInput');
 const filePreview = document.getElementById('filePreview');
 const pagesContainer = document.getElementById('pagesContainer');
 const saveContractBtn = document.getElementById('saveContractBtn');
+const viewContractModal = document.getElementById('viewContractModal');
+const closeViewModal = document.getElementById('closeViewModal');
+const documentPreview = document.getElementById('documentPreview');
 
 document.addEventListener('DOMContentLoaded', () => {
     addContractModal.style.display = 'none';
-    signContractModal.style.display = 'none';
-});
-
-closeSignModal.addEventListener('click', () => {
-    signContractModal.style.display = 'none'; // Esconde o modal
-});
-
+    viewContractModal.style.display = 'none';
+})
+~~
 // Abre o modal ao clicar em "Adicionar Contrato"
 addContractBtn.addEventListener('click', () => {
     addContractModal.style.display = 'flex';  // Exibe o modal
@@ -141,10 +140,15 @@ function addToHistory(fileName) {
 
     contractList.appendChild(li);
 }
-
-// Funções de visualização e análise do contrato
+// Visualizar Contrato
 function viewContract(fileName) {
-    alert(`Visualizando: ${fileName}`);
+    documentPreview.innerHTML = ''; // Limpa o preview anterior
+    // Simula a exibição do contrato (substitua pela lógica de renderizar o arquivo real)
+    const preview = document.createElement('div');
+    preview.textContent = `Visualizando: ${fileName}`;
+    documentPreview.appendChild(preview);
+
+    viewContractModal.style.display = 'block';
 }
 
 function analyzeContract(fileName) {
@@ -164,3 +168,9 @@ const userMenuBtn = document.getElementById("userMenuBtn");
                 dropdownContent.style.display = "none";
             }
         });
+
+// Fecha o modal de visualização
+closeViewModal.addEventListener('click', () => {
+    viewContractModal.style.display = 'none';
+    documentPreview.innerHTML = ''; // Limpa o conteúdo anterior
+});

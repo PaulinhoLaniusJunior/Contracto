@@ -24,12 +24,12 @@ body {
 }
 
 header {
-    margin-top: 20px;
+    margin-top: 10px; /* Diminui a margem superior */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 1rem 9%;
+    padding: 1rem 7%; /* Menor padding */
     background-color: transparent;
     filter: drop-shadow(10px);
     display: flex;
@@ -45,34 +45,27 @@ header {
 }
 
 .user-btn, .btn {
-        padding: 1rem 2.8rem;
-        font-size: 1.6rem;
-        color:  #399f92;
-        letter-spacing: 0.3rem;
-        font-weight: 600;
-        background-color: white;
-        border-radius: 4rem;
-        border: 2px solid #399f92;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+    padding: 0.5rem 1.8rem; /* Reduzimos o padding */
+    font-size: 1.2rem; /* Menor tamanho da fonte */
+    color: #399f92;
+    letter-spacing: 0.2rem;
+    font-weight: 600;
+    background-color: white;
+    border-radius: 4rem;
+    border: 1px solid #399f92;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
 .user-btn:hover, .btn:hover {
-        background-color: #399f92;
-        color:  white;
-        box-shadow: 0 0 25px #399f92;
-    }
+    background-color: #399f92;
+    color: white;
+    box-shadow: 0 0 15px #399f92;
+}
 
-/* Estilos para o botão na página de serviços */
 .btn {
-    padding: 0.8rem 1.5rem; /* Mantenha o mesmo padding para consistência */
-    font-size: 1.4rem; /* Tamanho da fonte */
-    background-color: white; /* Cor de fundo */
-    color: #399f92; /* Cor do texto */
-    border-radius: 4rem; /* Bordas arredondadas */
-    border: 2px solid #399f92; /* Borda transparente padrão */
-    transition: 0.3s ease; /* Transição suave */
-    cursor: pointer; /* Cursor pointer */
+    padding: 0.5rem 1.2rem; /* Menor padding */
+    font-size: 1.2rem; /* Reduzido */
 }
 
 .dropdown-content {
@@ -82,13 +75,13 @@ header {
     top: 100%;
     background-color: white;
     min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .dropdown-content a {
     color: black;
-    padding: 12px 16px;
+    padding: 10px 15px; /* Reduzimos o padding */
     text-decoration: none;
     display: block;
 }
@@ -98,7 +91,7 @@ header {
 }
 
 .logo {
-    font-size: 3rem;
+    font-size: 2.5rem; /* Menor tamanho da fonte */
     color: #399f92;
     font-weight: 800;
     cursor: pointer;
@@ -111,55 +104,53 @@ header {
 
 section {
     min-height: 100vh;
-    padding: 5rem 9% 5rem;
+    padding: 4rem 7% 4rem; /* Menor padding nas seções */
 }
 
 /* Estilo para a tela de perfil */
 .profile {
-    padding-top: 110px;
+    padding-top: 90px; /* Menor padding */
 }
 
 .profile h2 {
-    font-size: 2.5rem;
+    font-size: 2.2rem; /* Menor tamanho de fonte */
     color: #399f92;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Menor margem */
 }
 
 #profileForm {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Espaçamento entre os campos */
+    gap: 1rem; /* Menor espaçamento entre os campos */
 }
 
 input {
-    padding: 1rem; /* Ajustado para manter consistência */
-    font-size: 1.4rem; /* Tamanho da fonte */
+    padding: 0.8rem; /* Menor padding */
+    font-size: 1.3rem; /* Menor tamanho de fonte */
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
 
 .buttons {
     display: flex;
-    gap: 1rem; /* Espaçamento entre os botões */
+    gap: 0.8rem; /* Menor espaço entre os botões */
 }
 
-
-/* Estilos gerais do perfil */
-#profileForm {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Espaçamento entre os campos */
-}
-
-input {
-    padding: 1rem; /* Ajustado para manter consistência */
-    font-size: 1.4rem; /* Tamanho da fonte */
+input, select {
+    padding: 0.8rem; /* Reduzimos o padding para consistência */
+    font-size: 1.3rem; /* Menor tamanho da fonte */
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
 
+/* Estilo para a caixa de seleção */
+select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
 /* Adicionando estilo para o campo CPF, que será apenas leitura */
 #cpf {
-    background-color: #f4f4f4; /* Cor de fundo diferente para indicar que não pode ser editado */
-    cursor: not-allowed; /* Indicando que não é editável */
+    background-color: #f4f4f4;
+    cursor: not-allowed;
 }

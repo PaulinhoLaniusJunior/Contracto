@@ -10,11 +10,11 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    background: url('../css/imagem8.png') center center/cover no-repeat; /* Imagem no fundo */
-    background-size: cover; /* Garante que a imagem cobre a tela */
-    background-position: center center; /* Centraliza a imagem */
+    justify-content: center;
+    align-items: center;
+    background: url('../css/imagem8.png') center center/cover no-repeat;
+    background-size: cover;
+    background-position: center center;
     position: relative;
 }
 
@@ -25,54 +25,54 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2); /* Escurece o fundo */
+    background: rgba(0, 0, 0, 0.2);
     z-index: 0;
 }
 
 .container {
-    width: 100%;
-    max-width: 600px; /* Define a largura máxima do formulário */
-    background: rgba(0, 0, 0, 0.2); /* Fundo escuro translúcido */
+    width: 90%; /* Largura proporcional */
+    max-width: 400px; /* Largura máxima */
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    padding: 40px; /* Espaçamento interno */
-    backdrop-filter: blur(3px); /* Desfoque de fundo */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Sombra para destaque */
-    z-index: 1; /* Fica acima da sobreposição */
+    padding: 30px;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
 h1 {
-    font-size: 3rem; /* Tamanho do título */
-    margin-bottom: 2.5rem; /* Espaçamento inferior */
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
     font-weight: 800;
-    color: #FFFFFF; /* Cor do título */
+    color: #FFFFFF;
     text-align: center;
 }
 
 h1 span {
-    color: #5C6BC0; /* Cor do destaque */
+    color: #5C6BC0;
 }
 
 input, #reg_cpf {
-    padding: 18px; /* Aumenta o padding */
-    font-size: 1.2rem;
+    padding: 14px;
+    font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.9); /* Fundo claro */
+    background-color: rgba(255, 255, 255, 0.9);
     width: 100%;
-    margin-bottom: 1.5rem; /* Espaçamento inferior */
+    margin-bottom: 1rem;
 }
 
 button {
     width: 100%;
-    padding: 18px; /* Padding maior */
+    padding: 14px;
     border: none;
     background-color: #399f92;
     color: white;
-    font-size: 1.2rem; /* Tamanho maior da fonte */
+    font-size: 1rem;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 2rem; /* Espaçamento superior */
+    margin-top: 1.5rem;
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -81,21 +81,21 @@ button:hover {
 }
 
 p {
-    color: #FFFFFF; /* Cor do texto */
-    margin-bottom: 2rem; /* Espaçamento inferior */
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
     text-align: center;
 }
 
 a {
-    color: #00ffdd; /* Cor do link */
+    color: #00ffdd;
     text-decoration: none;
     display: inline-block;
-    margin-top: 1.5rem; /* Espaçamento superior */
+    margin-top: 1rem;
     text-align: center;
 }
 
 a:hover {
-    text-decoration: underline; /* Sublinhado ao passar o mouse */
+    text-decoration: underline;
 }
 
 /* Estilos das notificações */
@@ -105,7 +105,7 @@ a:hover {
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 500px;
+    max-width: 400px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -144,5 +144,51 @@ a:hover {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    input, button {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    input, button {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    .notification-container {
+        width: 95%;
     }
 }
