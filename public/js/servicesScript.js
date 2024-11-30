@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addContractModal.style.display = 'none';
     viewContractModal.style.display = 'none';
 })
-~~
+
 // Abre o modal ao clicar em "Adicionar Contrato"
 addContractBtn.addEventListener('click', () => {
     addContractModal.style.display = 'flex';  // Exibe o modal

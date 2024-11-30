@@ -4,6 +4,14 @@ const db = require('./db_config');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); // Importa JWT
+const fs = require('fs');
+const path = require('path');
+
+const uploadDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 const app = express();
 const SECRET_KEY = 'sua-chave-secreta'; // Use uma chave forte e segura para produção
@@ -99,7 +107,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-
 // Rota para buscar os dados do usuário logado
 app.get('/user/me', authenticateToken, (req, res) => {
     const userId = req.user.id; // ID do usuário extraído do token
@@ -165,15 +172,39 @@ app.post('/profile', authenticateToken, async (req, res) => {
     }
 });
 
+app.post('/api/save-pdf', authenticateToken, async (req, res) => {
+    const { fileName, fileData } = req.body;
+
+    if (!fileName || !fileData) {
+        return res.status(400).json({ success: false, message: 'Arquivo ou nome do arquivo não fornecido.' });
+    }
+
+    try {
+        const buffer = Buffer.from(fileData, 'base64'); // Converte o Base64 para um buffer
+        const filePath = `uploads/${fileName}`; // Caminho para salvar o arquivo
+
+        const fs = require('fs');
+        fs.writeFileSync(filePath, buffer); // Salva o arquivo no servidor
+
+        // Opcional: salvar informações no banco de dados
+        const query = 'INSERT INTO contratos (nome, caminho, usuario_id) VALUES (?, ?, ?)';
+        db.query(query, [fileName, filePath, req.user.id]);
+
+        res.status(201).json({ success: true, message: 'Contrato salvo com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao salvar o contrato:', error);
+        res.status(500).json({ success: false, message: 'Erro no servidor ao salvar o contrato.' });
+    }
+});
+
 app.get('/protected-route', authenticateToken, (req, res) => {
     res.json({ message: 'Acesso concedido à rota protegida!', user: req.user });
-}); 
+});
 
 app.get('/validate-token', authenticateToken, (req, res) => {
     // Se chegou até aqui, o token é válido
     res.json({ success: true, message: 'Token válido.', user: req.user });
 });
-
 
 // Inicia o servidor
 app.listen(3000, () => {
