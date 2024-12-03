@@ -1,4 +1,4 @@
-export function validarCPF(cpf) {
+export default function validarCPF(cpf) {
     cpf = cpf.replace(/[^\d]+/g, ''); // Remove qualquer caractere não numérico
 
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {

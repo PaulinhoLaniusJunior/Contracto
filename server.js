@@ -7,18 +7,21 @@ const jwt = require('jsonwebtoken'); // Importa JWT
 const fs = require('fs');
 const path = require('path');
 
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
 const uploadDir = path.join(__dirname, 'uploads');
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }
 
-const app = express();
 const SECRET_KEY = 'sua-chave-secreta'; // Use uma chave forte e segura para produção
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static('public'));
 
 // Middleware para verificar o token JWT
 function authenticateToken(req, res, next) {
@@ -35,6 +38,7 @@ function authenticateToken(req, res, next) {
 // Rota para registrar um novo usuário
 app.post('/register', (req, res) => {
     const { nome, email, cpf, password } = req.body;
+    console.log(`nome: ${nome} email: ${email}, cpf ${cpf}, passowrd: ${password}`)
 
     if (!nome || !email || !cpf || !password) {
         return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios.' });
@@ -42,22 +46,31 @@ app.post('/register', (req, res) => {
 
     const checkUserQuery = 'SELECT * FROM users WHERE email = ? OR cpf = ?';
     db.query(checkUserQuery, [email, cpf], (err, result) => {
-        if (err) return res.status(500).json({ success: false, message: 'Erro no servidor.' });
+        if (err) {
+            console.error('Erro ao verificar usuário:', err);
+            return res.status(500).json({ success: false, message: 'Erro no servidor ao verificar usuário.' });
+        }
 
         if (result.length > 0) {
-            return res.json({ success: false, message: 'Este email ou CPF já está registrado.' });
-        } else {
-            bcrypt.hash(password, 10, (err, hashedPassword) => {
-                if (err) return res.status(500).json({ success: false, message: 'Erro no servidor.' });
-
-                const query = 'INSERT INTO users (nome, email, password, cpf) VALUES (?, ?, ?, ?)';
-                db.query(query, [nome, email, hashedPassword, cpf], (err, result) => {
-                    if (err) return res.status(500).json({ success: false, message: 'Erro ao registrar.' });
-
-                    res.json({ success: true, message: 'Usuário registrado com sucesso!' });
-                });
-            });
+            return res.status(409).json({ success: false, message: 'Email ou CPF já registrados.' });
         }
+
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.error('Erro ao hash da senha:', err);
+                return res.status(500).json({ success: false, message: 'Erro ao processar a senha.' });
+            }
+
+            const query = 'INSERT INTO users (nome, email, password, cpf) VALUES (?, ?, ?, ?)';
+            db.query(query, [nome, email, hashedPassword, cpf], (err, result) => {
+                if (err) {
+                    console.error('Erro ao registrar usuário:', err);
+                    return res.status(500).json({ success: false, message: 'Erro ao registrar usuário.' });
+                }
+
+                res.status(201).json({ success: true, message: 'Usuário registrado com sucesso!' });
+            });
+        });
     });
 });
 
@@ -173,17 +186,22 @@ app.post('/profile', authenticateToken, async (req, res) => {
 });
 
 app.post('/api/save-pdf', authenticateToken, async (req, res) => {
-    const { fileName, fileData } = req.body;
+    const { fileName, fileData, idUser } = req.body;
 
-    if (!fileName || !fileData) {
-        return res.status(400).json({ success: false, message: 'Arquivo ou nome do arquivo não fornecido.' });
+    if (!fileName || !fileData || !idUser) {
+        return res.status(400).json({ success: false, message: 'Data do arquivo, Nome do arquivo ou  id do usuario não fornecido.' });
     }
 
     try {
-        const buffer = Buffer.from(fileData, 'base64'); // Converte o Base64 para um buffer
-        const filePath = `uploads/${fileName}`; // Caminho para salvar o arquivo
 
-        const fs = require('fs');
+        const buffer = Buffer.from(fileData, 'base64'); // Converte o Base64 para um buffer
+        const filePath = `uploads/${idUser}/${fileName}`; // Caminho para salvar o arquivo
+        
+        const dirPath = path.dirname(filePath);
+        if (!fs.existsSync(dirPath)) {
+          fs.mkdirSync(dirPath, { recursive: true });
+        }
+
         fs.writeFileSync(filePath, buffer); // Salva o arquivo no servidor
 
         // Opcional: salvar informações no banco de dados
@@ -207,6 +225,6 @@ app.get('/validate-token', authenticateToken, (req, res) => {
 });
 
 // Inicia o servidor
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

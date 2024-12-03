@@ -1,9 +1,11 @@
-import { validarCPF } from './validateCpf.js';
+import validarCPF from './validateCpf.js';
 
 const registerForm = document.getElementById('registerForm');
 const notificationContainer = document.getElementById('notification-container');
 
 registerForm.addEventListener('submit', function (e) {
+
+    console.log('chegou aqui')
     e.preventDefault();
     console.log('formulário enviado');
 
@@ -41,6 +43,8 @@ registerForm.addEventListener('submit', function (e) {
         valid = false;
     }
 
+    console.log('chegou aqui')
+
     if (!valid) {
         return; // Se algum campo for inválido, impede o envio
     }
@@ -68,19 +72,19 @@ registerForm.addEventListener('submit', function (e) {
         });
 });
 
-// function criarNotificacao(message, type) {
-//     const notification = document.createElement('div');
-//     notification.classList.add('notification');
-//     if (type) {
-//         notification.classList.add(type);
-//     }
-//     notification.textContent = message;
-//     notificationContainer.appendChild(notification);
+function criarNotificacao(message, type) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    if (type) {
+        notification.classList.add(type);
+    }
+    notification.textContent = message;
+    notificationContainer.appendChild(notification);
 
-//     setTimeout(() => {
-//         notification.remove();
-//     }, 5000);
-// }
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
 
 function limparNotificacoes() {
     notificationContainer.innerHTML = '';
