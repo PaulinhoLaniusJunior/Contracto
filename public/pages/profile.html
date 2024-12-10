@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../css/styleProfile.css">
-    <script defer src="../js/profileScript.js"></script>
+
+
+    <script defer type="module" src="../js/profileScript.js"></script>
+
     <title>Contracto - Meu Perfil</title>
 </head>
 <body>
     <header>
-        <a href="../pages/home.html" class="logo">Contracto</a>
+        <a href="../pages/home_logged.html" class="logo">Contracto</a>
         <div class="user-menu">
             <button id="userMenuBtn" class="user-btn">Usuário ▼</button>
 
             <div class="dropdown-content">
                 <a href="../pages/servicos.html">Serviço</a>
-                <a href="#">Sair</a>
+                <a id="logout-btn" href="#">Sair</a>
             </div>
         </div>
     </header>
@@ -25,11 +28,10 @@
         <h2>Dados Pessoais</h2>
         <form id="profileForm">
             <input type="text" placeholder="Nome" id="name" required>
-            <input type="text" placeholder="Sobrenome" id="surname" required>
             <input type="email" placeholder="E-mail" id="email" required>
             <input type="tel" placeholder="Celular" id="phone" required>
             <input type="date" placeholder="Data de Nascimento" id="birthdate" required>
-            <input type="text" placeholder="CPF" id="cpf" value="123.456.789-00" readonly>
+            <input type="text" placeholder="CPF" id="cpf" required>
             <input type="text" placeholder="Rua" id="street" required>
             <input type="text" placeholder="Bairro" id="neighborhood" required>
             <input type="text" placeholder="Número" id="number" required>

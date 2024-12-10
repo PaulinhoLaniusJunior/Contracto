@@ -1,15 +1,24 @@
 const mysql = require('mysql');
 
 const db = mysql.createConnection({
-    host: 'localhost', 
-    user: 'root', 
-
-    // Altere para sua senha do MySQL quando for logar
-    password: '70502604',
-    
-    // Altere para seu banco de dados, o meu é contracto data
-    database: 'Contracto'  
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'contracto'
 });
+
+function execute(query, values = []) {
+    db.query(query, values, (err, results) => {
+        if (err) {
+            console.log('Erro ao executar a consulta SQL', err);
+            return;
+        } else {
+            console.log('Resultados', results);
+        }
+
+        db.end();
+    });
+}
 
 db.connect(err => {
     if (err) {
@@ -19,4 +28,4 @@ db.connect(err => {
     }
 });
 
-module.exports = db;
+module.exports = { execute, db };

@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../css/stylehome_logged.css">
     <title>Contracto - Home (Logado)</title>
+    <script src="../js/scripthomeloggeg.js"></script>
 </head>
 <body>
 <header>
-    <a href="#" class="logo">Contracto</a>
+    <a href="../pages/home_logged.html" class="logo">Contracto</a>
     <nav>
         <a href="#" class="active">Home</a>
         <a href="#contact">Contact</a>
@@ -19,7 +20,7 @@
         <div class="dropdown-content">
             <a href="../pages/profile.html">Meu perfil</a>
             <a href="../pages/servicos.html">Serviço</a>
-            <a href="../pages/home.html">Sair</a>
+            <a id="logout-btn" href="">Sair</a>
         </div>
     </div>
 </header>
@@ -50,30 +51,6 @@
         </div>
     </div>
 </section>
-
-<script src="../js/auth.js"></script>
-
-<script>
-    // Adiciona o evento de logout ao botão
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-</script>
-
-<script>
-    const userMenuBtn = document.getElementById("userMenuBtn");
-    const dropdownContent = document.querySelector(".dropdown-content");
-
-    userMenuBtn.addEventListener("click", () => {
-        // Alterna a visibilidade do menu suspenso
-        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-    });
-
-    // Fecha o menu suspenso se o usuário clicar fora dele
-    window.addEventListener("click", (event) => {
-        if (!event.target.matches('#userMenuBtn') && !event.target.closest('.user-menu')) {
-            dropdownContent.style.display = "none";
-        }
-    });
-</script>
 
 </body>
 </html>

@@ -10,27 +10,24 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Resposta recebida do servidor:', data);
-        const message = document.getElementById('login_message');
-        message.textContent = data.message;
+        .then(response => response.json())
+        .then(data => {
+            console.log('Resposta recebida do servidor:', data);
+            const message = document.getElementById('login_message');
+            message.textContent = data.message;
 
-        if (data.success) {
-            // Armazena o token JWT no sessionStorage
-            sessionStorage.setItem('token', data.token);
-            console.log('token foi armazenado', sessionStorage.getItem('token'))
-            //alert('Login realizado com sucesso!');
-            window.location.href = 'servicos.html'; // Redireciona após login bem-sucedido
-        } else {
-            setTimeout(() => {
-                window.location.href = 'error.html'; // Redireciona em caso de erro
-            }, 2000);
-        }
-    })
-    .catch(error => {
-        console.error('Erro ao fazer a requisição:', error);
-        const message = document.getElementById('login_message');
-        message.textContent = 'Erro ao se conectar ao servidor. Tente novamente.';
-    });
+            if (data.success) {
+                // Armazena o token JWT no sessionStorage
+                localStorage.setItem('token', data.token);
+                //alert('Login realizado com sucesso!');
+                window.location.href = 'servicos.html'; // Redireciona após login bem-sucedido
+            } else {
+                alert('Erro ao fazer login');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao fazer a requisição:', error);
+            const message = document.getElementById('login_message');
+            message.textContent = 'Erro ao se conectar ao servidor. Tente novamente.';
+        });
 });

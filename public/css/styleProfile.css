@@ -148,9 +148,3 @@ select {
     background-color: #fff;
     cursor: pointer;
 }
-
-/* Adicionando estilo para o campo CPF, que será apenas leitura */
-#cpf {
-    background-color: #f4f4f4;
-    cursor: not-allowed;
-}

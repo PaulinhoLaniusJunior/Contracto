@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./db_config');
+const {db} = require('./db_config');
+const { execute }  = require('./db_config')
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); // Importa JWT
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer')
 
 const app = express();
 const PORT = 3000;
@@ -14,26 +16,43 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-const uploadDir = path.join(__dirname, 'uploads');
+// const uploadDir = path.join(__dirname, 'uploads');
 
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
+// if (!fs.existsSync(uploadDir)) {
+//     fs.mkdirSync(uploadDir);
+// }
 
-const SECRET_KEY = 'sua-chave-secreta'; // Use uma chave forte e segura para produção
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueSuffix);
+    },
+});
+
+const upload = multer({ storage });
+
+const SECRET_KEY = 'secreto'; // Use uma chave forte e segura para produção
 
 
 // Middleware para verificar o token JWT
-function authenticateToken(req, res, next) {
-    const token = req.headers['authorization']?.split(' ')[1];
-    if (!token) return res.status(401).json({ success: false, message: 'Acesso negado. Token não fornecido.' });
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+    if (!token) return res.status(401).json({ error: 'Acesso negado, faça login' });
 
-    jwt.verify(token, SECRET_KEY, (err, user) => {
-        if (err) return res.status(403).json({ success: false, message: 'Token inválido.' });
-        req.user = user; // Armazena os dados decodificados do token
+    jwt.verify(token, 'secreto', (err, user) => {
+        if (err) return res.status(403).json({ error: 'Token inválido' });
+        req.user = user;
         next();
     });
-}
+};
+
 
 // Rota para registrar um novo usuário
 app.post('/register', (req, res) => {
@@ -80,43 +99,29 @@ app.post('/login', (req, res) => {
 
     const query = 'SELECT * FROM users WHERE email = ?';
     db.query(query, [email], (err, result) => {
-        if (err) {
-            console.error('Erro no servidor:', err);
-            return res.status(500).json({ success: false, message: 'Erro no servidor.' });
+        if (err) return res.status(500).json({ success: false, message: 'Erro no servidor.' });
+
+        if (result.length === 0) {
+            return res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
         }
 
-        if (result.length > 0) {
-            const storedPassword = result[0].password;
+        const storedPassword = result[0].password;
+        const userId = result[0].id;
 
-            bcrypt.compare(password, storedPassword, (err, isMatch) => {
-                if (err) {
-                    console.error('Erro ao comparar senhas:', err);
-                    return res.status(500).json({ success: false, message: 'Erro no servidor.' });
-                }
+        bcrypt.compare(password, storedPassword, (err, isMatch) => {
+            if (err) return res.status(500).json({ success: false, message: 'Erro no servidor.' });
 
-                if (isMatch) {
-                    // Gera um token JWT
-                    const token = jwt.sign(
-                        { email, id: result[0].id },
-                        SECRET_KEY,
-                        { expiresIn: '1h' }
-                    );
+            if (!isMatch) {
+                return res.status(401).json({ success: false, message: 'Senha incorreta.' });
+            }
 
-                    // Loga o token no terminal do servidor
-                    console.log(`Token gerado para o usuário ${email}:`, token);
-
-                    res.json({
-                        success: true,
-                        message: 'Login realizado com sucesso!',
-                        token
-                    });
-                } else {
-                    res.status(401).json({ success: false, message: 'Senha incorreta.' });
-                }
+            const token = jwt.sign({ id: userId, email }, SECRET_KEY, { expiresIn: '1h' });
+            res.json({
+                success: true,
+                message: 'Login realizado com sucesso!',
+                token
             });
-        } else {
-            res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
-        }
+        });
     });
 });
 
@@ -136,10 +141,9 @@ app.get('/user/me', authenticateToken, (req, res) => {
     });
 });
 
-app.post('/profile', authenticateToken, async (req, res) => {
+app.post('/profile', async (req, res) => {
     const {
         nome,
-        sobrenome,
         email,
         celular,
         dataNascimento,
@@ -149,80 +153,122 @@ app.post('/profile', authenticateToken, async (req, res) => {
         numero,
         cidade,
         cep,
+        tipoConta
     } = req.body;
 
     try {
         // Verificação básica dos campos obrigatórios
-        if (!nome || !sobrenome || !email || !cpf || !tipoConta) {
+        if (!nome || !email || !cpf || !tipoConta) {
             return res.status(400).json({ success: false, message: 'Campos obrigatórios não preenchidos.' });
         }
 
-        // Query para inserir os dados no banco
+        // Query para atualizar os dados no banco
         const query = `
-            INSERT INTO usuarios 
-            (nome, sobrenome, email, celular, data_nascimento, cpf, rua, bairro, numero, cidade, cep)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            UPDATE users 
+            SET 
+                nome = ?, 
+                email = ?, 
+                celular = ?, 
+                data_nascimento = ?, 
+                rua = ?, 
+                bairro = ?, 
+                numero = ?, 
+                cidade = ?, 
+                cep = ? 
+            WHERE cpf = ?
         `;
 
-        await db.execute(query, [
+        // Executar a query de atualização
+        await execute(query, [
             nome,
-            sobrenome,
             email,
             celular,
             dataNascimento,
-            cpf,
             rua,
             bairro,
             numero,
             cidade,
             cep,
+            cpf // CPF será usado como critério para localizar o registro
         ]);
 
-        return res.status(201).json({ success: true, message: 'Dados inseridos com sucesso!' });
+        return res.status(200).json({ success: true, message: 'Dados atualizados com sucesso!' });
     } catch (error) {
-        console.error('Erro ao salvar os dados no banco:', error);
+        console.error('Erro ao atualizar os dados no banco:', error);
         return res.status(500).json({ success: false, message: 'Erro no servidor. Tente novamente mais tarde.' });
     }
 });
 
-app.post('/api/save-pdf', authenticateToken, async (req, res) => {
-    const { fileName, fileData, idUser } = req.body;
+app.post('/upload', upload.single('file'), (req, res) => {
+    const file = req.file;
 
-    if (!fileName || !fileData || !idUser) {
-        return res.status(400).json({ success: false, message: 'Data do arquivo, Nome do arquivo ou  id do usuario não fornecido.' });
+    if (!file) {
+        return res.status(400).json({ message: 'Nenhum arquivo enviado.' });
     }
 
-    try {
+    const { originalname } = file;
+    const caminho = `/uploads/${file.filename}`; // Supondo que o arquivo seja salvo na pasta "uploads"
+    const usuario_id = 1; // Substitua pelo ID do usuário autenticado, se houver autenticação
 
-        const buffer = Buffer.from(fileData, 'base64'); // Converte o Base64 para um buffer
-        const filePath = `uploads/${idUser}/${fileName}`; // Caminho para salvar o arquivo
-        
-        const dirPath = path.dirname(filePath);
-        if (!fs.existsSync(dirPath)) {
-          fs.mkdirSync(dirPath, { recursive: true });
+    // Insere os dados no banco de dados
+    const query = `
+        INSERT INTO contratosfile (nome, caminho, usuario_id) 
+        VALUES (?, ?, ?)
+    `;
+    db.query(query, [originalname, caminho, usuario_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao salvar no banco de dados.' });
         }
 
-        fs.writeFileSync(filePath, buffer); // Salva o arquivo no servidor
-
-        // Opcional: salvar informações no banco de dados
-        const query = 'INSERT INTO contratos (nome, caminho, usuario_id) VALUES (?, ?, ?)';
-        db.query(query, [fileName, filePath, req.user.id]);
-
-        res.status(201).json({ success: true, message: 'Contrato salvo com sucesso!' });
-    } catch (error) {
-        console.error('Erro ao salvar o contrato:', error);
-        res.status(500).json({ success: false, message: 'Erro no servidor ao salvar o contrato.' });
-    }
+        res.status(200).json({ message: 'Arquivo salvo com sucesso!', fileId: result.insertId });
+    });
 });
 
-app.get('/protected-route', authenticateToken, (req, res) => {
-    res.json({ message: 'Acesso concedido à rota protegida!', user: req.user });
+app.get('/view/:id', (req, res) => {
+    const fileId = req.params.id;
+
+    // Busca o caminho do arquivo no banco de dados
+    const query = 'SELECT caminho FROM contratosfile WHERE id = ?';
+    db.query(query, [fileId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao buscar o arquivo no banco de dados.' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Arquivo não encontrado.' });
+        }
+
+        const filePath = path.join(__dirname, results[0].caminho);
+
+        // Verifica se o arquivo existe no sistema de arquivos
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ message: 'Arquivo não encontrado no servidor.' });
+        }
+
+        // Envia o arquivo como resposta
+        res.sendFile(filePath);
+    });
 });
 
-app.get('/validate-token', authenticateToken, (req, res) => {
-    // Se chegou até aqui, o token é válido
-    res.json({ success: true, message: 'Token válido.', user: req.user });
+app.get('/contracts', (req, res) => {
+    const usuario_id = 1; // Substitua pelo ID do usuário autenticado
+
+    const query = `
+        SELECT nome, caminho FROM contratosfile 
+        WHERE usuario_id = ?
+    `;
+    db.query(query, [usuario_id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Erro ao recuperar contratos.' });
+        }
+
+        res.status(200).json({ contracts: results });
+    });
 });
+
 
 // Inicia o servidor
 app.listen(PORT, () => {
