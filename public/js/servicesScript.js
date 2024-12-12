@@ -41,7 +41,7 @@ function initializeApp() {
     const closeViewModal = document.getElementById('closeViewModal');
     const documentPreview = document.getElementById('documentPreview');
 
-    
+
     // Função de logout
     const logout = () => {
         localStorage.removeItem('token');
@@ -72,7 +72,7 @@ function initializeApp() {
         fileInput.click();  // Abre o seletor de arquivos
     });
 
-    
+
 
     // Processa o arquivo selecionado e exibe as páginas
     // Mostra o botão "Salvar Contrato" ao selecionar o arquivo
@@ -149,12 +149,15 @@ function initializeApp() {
             alert('Por favor, selecione um arquivo antes de salvar.');
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('file', file);
-    
+
         fetch('/upload', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
             body: formData,
         })
             .then(response => response.json())
@@ -168,7 +171,7 @@ function initializeApp() {
                 alert('Erro ao salvar o contrato.');
             });
     });
-    
+
 
     // Função para visualizar o contrato
     async function viewContract(fileName) {

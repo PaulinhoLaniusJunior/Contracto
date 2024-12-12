@@ -43,11 +43,12 @@ const SECRET_KEY = 'secreto'; // Use uma chave forte e segura para produção
 
 // Middleware para verificar o token JWT
 const authenticateToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) return res.status(401).json({ error: 'Acesso negado, faça login' });
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'Token ausente.' });
 
-    jwt.verify(token, 'secreto', (err, user) => {
-        if (err) return res.status(403).json({ error: 'Token inválido' });
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) return res.status(403).json({ message: 'Token inválido em negão' });
+        console.log('token descodificado', user)
         req.user = user;
         next();
     });
@@ -116,6 +117,7 @@ app.post('/login', (req, res) => {
             }
 
             const token = jwt.sign({ id: userId, email }, SECRET_KEY, { expiresIn: '1h' });
+            console.log('token gerado', token)
             res.json({
                 success: true,
                 message: 'Login realizado com sucesso!',
@@ -199,16 +201,23 @@ app.post('/profile', async (req, res) => {
     }
 });
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload',authenticateToken, upload.single('file'), (req, res) => {
     const file = req.file;
-
+    
     if (!file) {
+        console.log('if do arquivo')
         return res.status(400).json({ message: 'Nenhum arquivo enviado.' });
     }
-
+    
     const { originalname } = file;
     const caminho = `/uploads/${file.filename}`; // Supondo que o arquivo seja salvo na pasta "uploads"
-    const usuario_id = 1; // Substitua pelo ID do usuário autenticado, se houver autenticação
+    //const usuario_id = req.user.id; // Substitua pelo ID do usuário autenticado, se houver autenticação
+    
+    const usuario_id = req.user ? req.user.id : null;
+    if (!usuario_id) {
+    console.log('if do usuario token')
+    return res.status(401).json({ message: 'Usuário não autenticado.' });
+} 
 
     // Insere os dados no banco de dados
     const query = `
@@ -252,8 +261,9 @@ app.get('/view/:id', (req, res) => {
     });
 });
 
-app.get('/contracts', (req, res) => {
-    const usuario_id = 1; // Substitua pelo ID do usuário autenticado
+app.get('/contracts', authenticateToken, (req, res) => {
+    
+    const usuario_id = req.user.id; // Substitua pelo ID do usuário autenticado
 
     const query = `
         SELECT nome, caminho FROM contratosfile 
